@@ -6,7 +6,8 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8000;
-console.log("Changed")
+console.log('Changed');
+console.log('Changed');
 //db connection
 mongoose
     .connect(process.env.MONGO_URI, {
