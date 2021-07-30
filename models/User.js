@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const { Schema } = mongoose;
 //hashes passwords
 import crypto from 'crypto';
 //generates unique strings
@@ -43,11 +44,13 @@ const UserSchema = new mongoose.Schema(
 
 //virtual field
 UserSchema.virtual('password')
+    //setters set/assign properties
     .set(function (password) {
         this._password = password;
-        this.salt = v4();
+        this.salt = uuidv4();
         this.hashed_password = this.encryptPassword(password);
     })
+    //allows access to properties
     .get(function () {
         return this._password;
     });
@@ -62,7 +65,7 @@ UserSchema.methods = {
                 .update(password)
                 .digest('hex');
         } catch (error) {
-            return 'Error with crypto hashing: ', error;
+            return 'Password error: ', error;
         }
     },
 };
