@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { json } from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import router from './routes/user.js';
@@ -11,8 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 //db connection
-console.log('Changed');
-console.log('Changed');
+
 mongoose
     .connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
@@ -28,6 +27,7 @@ mongoose.connection.on('error', (err) => {
 //middleware
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser);
 
 //routes middleware

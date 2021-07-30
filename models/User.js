@@ -2,9 +2,10 @@ import mongoose from 'mongoose';
 //hashes passwords
 import crypto from 'crypto';
 //generates unique strings
-import uuidv1 from 'uuid/v1';
+import { v4 as uuidv4 } from 'uuid';
+uuidv4();
 
-const userSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema(
     {
         name: {
             type: String,
@@ -44,7 +45,7 @@ const userSchema = new mongoose.Schema(
 UserSchema.virtual('password')
     .set(function (password) {
         this._password = password;
-        this.salt = uuidv1();
+        this.salt = v4();
         this.hashed_password = this.encryptPassword(password);
     })
     .get(function () {
@@ -66,4 +67,4 @@ UserSchema.methods = {
     },
 };
 
-export default mongoosee.model('User', UserSchema);
+export default mongoose.model('User', UserSchema);
