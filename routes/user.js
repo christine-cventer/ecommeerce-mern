@@ -1,13 +1,13 @@
 import express from 'express';
 
 const router = express.Router();
-import postSayHi from '../controllers/UserController.js';
+import signup from '../controllers/UserController.js';
 
 /*
  * @method - POST
  * @param - /signup
  * @description - User SignUp
  */
-router.get('/', postSayHi);
+router.post('/signup', signup);
 
 export default router;

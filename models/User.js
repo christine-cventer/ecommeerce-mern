@@ -55,8 +55,6 @@ UserSchema.methods = {
     encryptPassword: function (password) {
         if (!password) return '';
         // if a password IS present, proceed
-        //ESM syntax
-        let
         try {
             return crypto
                 .createHmac('sha1', this.salt)
