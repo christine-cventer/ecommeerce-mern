@@ -1,7 +1,7 @@
 import express from 'express';
 
 const router = express.Router();
-import postSayHi from '../contrrollers/UserContrroller.js';
+import postSayHi from '../controllers/UserController.js';
 
 /*
  * @method - POST
