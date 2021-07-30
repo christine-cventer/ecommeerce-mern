@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 //hashes passwords
 import crypto from 'crypto';
 //generates unique strings
-import { v4 as uuidv4 } from 'uuid';
+import uuidv1 from 'uuid/v1';
 
-const UserSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
     {
         name: {
             type: String,
