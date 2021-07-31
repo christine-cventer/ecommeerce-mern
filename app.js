@@ -1,7 +1,7 @@
 import express, { json } from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import router from './routes/user.js';
+import router from './routes/userRoute.js';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 
@@ -27,7 +27,8 @@ mongoose.connection.on('error', (err) => {
 //middleware
 app.use(morgan('dev'));
 app.use(express.json());
-//app.use(express.urlencoded({ extended: true }));
+//app.use(expressValidator()); <--- leegacy syntax
+app.use(express.urlencoded({ extended: true }));
 //app.use(cookieParser);
 
 //routes middleware
