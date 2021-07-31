@@ -27,10 +27,13 @@ mongoose.connection.on('error', (err) => {
 //middleware
 app.use(morgan('dev'));
 app.use(express.json());
-//app.use(expressValidator()); <--- leegacy syntax
+//app.use(expressValidator()); <--- legacy syntax
 app.use(express.urlencoded({ extended: true }));
 //app.use(cookieParser);
 
 //routes middleware
 app.use('/api/v1/user', router);
+app.get('/', (req, res) => {
+    res.send('Get endpoint');
+});
 app.listen(PORT, () => console.log(`Listening on port:${PORT}`));

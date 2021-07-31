@@ -20,7 +20,7 @@ router.post(
         //Let's ensure that a number is included in password
         .matches(/\d/)
         .withMessage('At least one number'),
-    (req, res) => {
+    (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
@@ -28,6 +28,7 @@ router.post(
                 errors: errors.array(),
             });
         }
+        next();
     },
     userSignUp
 );
