@@ -56,6 +56,10 @@ UserSchema.virtual('password')
     });
 
 UserSchema.methods = {
+    authenticate: function (plainTextPassword) {
+        //compare password entered to hashed password in database
+        return this.encryptPassword(plainTextPassword) === this.hashed_password;
+    },
     encryptPassword: function (password) {
         if (!password) return '';
         // if a password IS present, proceed

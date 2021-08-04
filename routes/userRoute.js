@@ -2,7 +2,7 @@ import express from 'express';
 import { body, validationResult } from 'express-validator';
 
 const router = express.Router();
-import userSignUp from '../controllers/UserController.js';
+import { userSignUp, userSignIn } from '../controllers/UserController.js';
 
 /*
  * @method - POST
@@ -32,4 +32,7 @@ router.post(
     },
     userSignUp
 );
+
+router.post('/signin', userSignIn);
+
 export default router;
