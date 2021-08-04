@@ -32,5 +32,4 @@ router.post(
     },
     userSignUp
 );
-
 export default router;
