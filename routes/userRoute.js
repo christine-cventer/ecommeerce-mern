@@ -2,7 +2,12 @@ import express from 'express';
 import { body, validationResult } from 'express-validator';
 
 const router = express.Router();
-import { userSignUp, userSignIn } from '../controllers/UserController.js';
+import {
+    userSignUp,
+    userSignIn,
+    userSignOut,
+} from '../controllers/UserController.js';
+//import restrictAuth from '../middleware/restrictAuthorization.js';
 
 /*
  * @method - POST
@@ -32,7 +37,17 @@ router.post(
     },
     userSignUp
 );
-
+/*
+ * @method - POST
+ * @param - /signin
+ * @description - User SignIn
+ */
 router.post('/signin', userSignIn);
+/*
+ * @method - GET
+ * @param - /signout
+ * @description - User SignOut
+ */
+router.get('/signout', userSignOut);
 
 export default router;

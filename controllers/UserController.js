@@ -1,8 +1,6 @@
 import User from '../models/User.js';
 //generates signed token
 import jwt from 'jsonwebtoken';
-//allows for authorization check
-import expressJwt from 'express-jwt';
 
 export async function userSignUp(req, res) {
     const userEmail = await User.findOne({ name: req.body.email });
@@ -45,4 +43,10 @@ export function userSignIn(req, res) {
         const { _id, email, name, role } = user;
         return res.json({ token, user: { _id, email, name, role } });
     });
+}
+
+export function userSignOut(req, res) {
+    //to sign out, simple clear the cookie (which stores user token) from response
+    res.clearCookie('t');
+    res.json({ message: 'Sign out' });
 }

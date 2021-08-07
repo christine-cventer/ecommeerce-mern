@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import router from './routes/userRoute.js';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -28,10 +29,11 @@ app.use(morgan('dev'));
 app.use(express.json());
 //app.use(expressValidator()); <--- legacy syntax
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 //routes middleware
 app.use('/api/v1/user', router);
 app.get('/', (req, res) => {
-    res.send('Get endpoint');
+    res.send('Geet endpoint');
 });
 app.listen(PORT, () => console.log(`Listening on port:${PORT}`));
