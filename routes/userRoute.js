@@ -6,8 +6,10 @@ import {
     userSignUp,
     userSignIn,
     userSignOut,
-} from '../controllers/UserController.js';
-//import restrictAuth from '../middleware/restrictAuthorization.js';
+} from '../controllers/UserAuthController.js';
+
+import getUserById from '../controllers/UserByIdController.js';
+import restrictAuth from '../middleware/restrictAuthorization.js';
 
 /*
  * @method - POST
@@ -49,5 +51,14 @@ router.post('/signin', userSignIn);
  * @description - User SignOut
  */
 router.get('/signout', userSignOut);
+
+router.get('/secret/:userId', (req, res) => {
+    res.json({
+        msg: 'Authorized',
+        user: req.profile,
+    });
+});
+
+router.param('userId', getUserById);
 
 export default router;

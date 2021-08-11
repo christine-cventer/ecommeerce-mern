@@ -1,10 +1,9 @@
-
 //allows for authorization check
 import expressJwt from 'express-jwt';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export function restrictAuth(req, res, next) {
+export default function restrictAuth(req, res, next) {
     expressJwt({
         secret: process.env.JWT_SECRET,
         userProperty: 'authorization',
@@ -14,5 +13,3 @@ export function restrictAuth(req, res, next) {
     res.sendStatus(200);
     next();
 }
-
-
