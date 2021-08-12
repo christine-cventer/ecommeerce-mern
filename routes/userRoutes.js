@@ -6,10 +6,12 @@ import {
     userSignUp,
     userSignIn,
     userSignOut,
+    getUserById,
 } from '../controllers/UserAuthController.js';
 
-import getUserById from '../controllers/UserByIdController.js';
-import restrictAuth from '../middleware/restrictAuthorization.js';
+import restrictAuth from '../middleware/restrictUserAccess.js';
+import isUserAdmin from '../middleware/userAuthCheck.js';
+import isUserAuthorized from '../middleware/adminRoleCheck.js';
 
 /*
  * @method - POST
@@ -51,8 +53,13 @@ router.post('/signin', userSignIn);
  * @description - User SignOut
  */
 router.get('/signout', userSignOut);
+/*
+ * @method - GET
+ * @param - /userId
+ * @description - test route for middleware
+ */
 
-router.get('/secret/:userId', (req, res) => {
+router.get('/secret/:userId', restrictAuth, (req, res) => {
     res.json({
         msg: 'Authorized',
         user: req.profile,

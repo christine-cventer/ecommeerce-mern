@@ -1,10 +1,12 @@
-import express from 'express';
+import express, { json } from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
-import userRoute from './routes/userRoute.js';
+import userRoute from './routes/userRoutes.js';
 //import userByIdRoute from './routes/userByIdRoute.js';
+
+const router = express.Router();
 
 dotenv.config();
 
@@ -36,7 +38,4 @@ app.use(cookieParser());
 app.use('/api/v1/user', userRoute);
 //app.use('/api/v1/user', userByIdRoute);
 
-app.get('/', (req, res) => {
-    res.send('Get endpoint');
-});
 app.listen(PORT, () => console.log(`Listening on port:${PORT}`));

@@ -4,18 +4,28 @@ import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 
 export async function userSignUp(req, res) {
-    const userEmail = await User.findOne({ name: req.body.email });
-    if (userEmail) {
-        res.json({ msg: 'A user with this information already exists' });
-    } else {
-        const newUser = await User.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password,
-        });
+    try {
+        const userEmail = await User.findOne({ name: req.body.email });
+        if (userEmail) {
+            res.json({
+                msg: 'A user with this information already exists',
+            });
+        } else {
+            const newUser = await User.create({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password,
+            });
+
+            return res.json({
+                msg: 'Your account has been created',
+                user: newUser,
+            });
+        }
+    } catch (error) {
+        console.log('User signup error:', error);
         return res.json({
-            msg: 'Your account has been created',
-            user: newUser,
+            msg: error.Message,
         });
     }
 }
@@ -68,4 +78,16 @@ export async function employerSignUp(req, res) {
             user: newEmployer,
         });
     }
+}
+
+export async function getUserById(req, res, next, id) {
+    User.findById(id).exec((error, user) => {
+        if (error || !user) {
+            return res.status(400).json({
+                error: 'User not found',
+            });
+        }
+        req.profile = user;
+        next();
+    });
 }
