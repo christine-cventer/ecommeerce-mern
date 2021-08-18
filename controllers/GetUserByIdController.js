@@ -5,7 +5,7 @@ export default async function getUserById(req, res, next, id) {
     User.findById(id).exec((error, user) => {
         if (error || !user) {
             return res.status(400).json({
-                error: 'User not found',
+                error: 'GetUserById error, user may not have a profile',
             });
         }
         req.profile = user;
