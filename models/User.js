@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const { Schema } = mongoose;
+
 //hashes passwords
 import crypto from 'crypto';
 //generates unique strings

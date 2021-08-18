@@ -3,7 +3,7 @@ import restrictAuth from '../middleware/restrictUserAccess.js';
 import isUserAdmin from '../middleware/userAuthCheck.js';
 import isUserAuthorized from '../middleware/adminRoleCheck.js';
 import createNewCategory from '../controllers/ProductCategory.js';
-import getUserById from '../controllers/GetUserByIdController.js';
+import getUserById from '../middleware/getUserById.js';
 
 const router = express.Router();
 
