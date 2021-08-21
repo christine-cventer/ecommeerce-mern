@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import userRoute from './routes/userRoutes.js';
 import productCategoryRoute from './routes/productCategoryRoute.js';
+import productRoutes from './routes/product.js';
 
 const router = express.Router();
 connectDb();
@@ -25,5 +26,6 @@ app.use(cookieParser());
 //routes middleware
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/category', productCategoryRoute);
+app.use('/api/v1/product', productRoutes);
 
 app.listen(PORT, () => console.log(`Listening on port:${PORT}`));

@@ -31,7 +31,7 @@ const ProductSchema = new mongoose.Schema(
         quantity: {
             type: Number,
         },
-        photo: {
+        image: {
             data: Buffer,
             contentType: String,
         },

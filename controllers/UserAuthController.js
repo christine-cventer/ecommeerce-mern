@@ -61,24 +61,6 @@ export function userSignOut(req, res) {
     res.clearCookie('t');
     res.json({ message: 'Sign out' });
 }
-export async function employerSignUp(req, res) {
-    const email = await Employer.findOne({ email: req.body.email });
-    if (email) {
-        res.json({
-            msg: 'An accountt with this email already exists, please proceed to login',
-        });
-    } else {
-        const newEmployer = await Employer.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password,
-        });
-        return res.json({
-            msg: 'Your account has been created',
-            user: newEmployer,
-        });
-    }
-}
 
 export async function getUserById(req, res, next, id) {
     User.findById(id).exec((error, user) => {
