@@ -1,7 +1,5 @@
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 const { ObjectId } = mongoose.Schema;
-
-uuidv4();
 
 const ProductSchema = new mongoose.Schema(
     {
@@ -10,6 +8,9 @@ const ProductSchema = new mongoose.Schema(
             trim: true,
             required: true,
             maxlength: 32,
+        },
+        cloudinary_id: {
+            type: String,
         },
         description: {
             type: String,
