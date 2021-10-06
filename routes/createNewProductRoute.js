@@ -5,8 +5,8 @@ import restrictAuth from '../middleware/restrictUserAccess.js';
 import isUserAdmin from '../middleware/userAuthCheck.js';
 import isUserAuthorized from '../middleware/adminRoleCheck.js';
 import getUserById from '../middleware/getUserById.js';
-import CreateNewProduct from '../controllers/NewProductController.js';
-import { multerUploads, dataUri } from '../middleware/config/multerConfig.js';
+import { CreateNewProduct } from '../controllers/NewProductController.js';
+import { multerUploads } from '../middleware/config/multerConfig.js';
 
 const router = express.Router();
 router.post(

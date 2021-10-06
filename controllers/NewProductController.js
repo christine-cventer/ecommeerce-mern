@@ -1,12 +1,23 @@
 import Product from '../models/Product.js';
-import {
-    cloudinaryConfig,
-    uploader,
-} from '../middleware/config/cloudinaryConfig.js';
+import { uploader } from '../middleware/config/cloudinaryConfig.js';
+import DatauriParser from 'datauri';
+import path from 'path';
+import { default as fsWithCallbacks } from 'fs';
+const fs = fsWithCallbacks.promises;
 
-export default function CreateNewProduct(req, res, next) {
+const dUriParser = new DatauriParser();
+
+export function dataUri(req, res) {
     if (req.file) {
-        const file = dataUri(req.content);
+        const formatMimeType = path.extname(req.file.originalname).toString();
+        const buffer = fs.readFileSync(req.file.image.path);
+        return dUriParser.format(formatMimeType, buffer);
+    }
+}
+
+export function CreateNewProduct(req, res, next) {
+    if (req.file) {
+        const file = dataUri(req).content;
         return uploader
             .upload(file)
             .then((result) => {
