@@ -6,7 +6,7 @@
  See routes/createNewProductRoute 
 
 configs/multerConfig uses multer to parse form-data from image
-dataUri converts img data to Buffer so that data can be stored in db
+
 
  ***Should I move some of this configuration over to the Product controller? 
  *** Particularly when I have to create a req.obj for the buffer variable? ***

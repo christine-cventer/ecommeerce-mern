@@ -1,39 +1,32 @@
 import express from 'express';
-// middleware and controllers
 
+// middleware and controllers
 import restrictAuth from '../middleware/restrictUserAccess.js';
 import isUserAdmin from '../middleware/userAuthCheck.js';
 import isUserAuthorized from '../middleware/adminRoleCheck.js';
 import getUserById from '../middleware/getUserById.js';
-import { CreateNewProduct } from '../controllers/NewProductController.js';
-import { multerUploads } from '../middleware/config/multerConfig.js';
+import upload from '../middleware/config/multerConfig.js';
+import CreateNewProduct from '../controllers/NewProductController.js';
+import { createImageUpload } from '../middleware/config/signedUpload.js';
 
 const router = express.Router();
+
 router.post(
     '/new-product/create/:userId',
+    upload.single('file'),
     CreateNewProduct,
+    createImageUpload,
     isUserAuthorized,
     isUserAdmin,
     restrictAuth,
-    multerUploads,
     (req, res) => {
-        console.log('Image file route: ', req.body);
-        res.send('Success');
+        if (!req.file) {
+            throw Error('File missing');
+        } else {
+            res.send('success');
+        }
     }
 );
 router.param('userId', getUserById);
 
-/**
- Successful test route 
-
- router.post(
-    '/new-product/create/',
-    multerUploads,
-
-    (req, res) => {
-        console.log('Image file route', 'req.file: ', req.file);
-        res.send('Success');
-    }
-);
- */
 export default router;
