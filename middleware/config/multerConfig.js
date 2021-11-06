@@ -1,21 +1,16 @@
 import multer from 'multer';
-import DatauriParser from 'datauri';
-import path from 'path';
-// import { readFileSync } from 'fs';
-import { default as fsWithCallbacks } from 'fs';
-const fs = fsWithCallbacks.promises;
-const dUriParser = new DatauriParser();
 
+// Declare what type of storage to use, can also be diskStorage (which comes with options)
 const storage = multer.memoryStorage();
-export function multerUploads() {
-    multer({ storage }).single('image');
-}
-const formatMimeType = (req) => path.extname(req.file.originalname).toString();
-const buffer = fs.readFileSync(req.file.image.path);
-// TODO: convert buffer data from image to url (see Product model in models/)
-// * @param {Object} req containing the field object
-// * @returns {String} The data url from the string buffer
+//Determine what type of files are supported
+const fileFilter = (req, res, cb) => {
+    if (fileFilter.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb({ message: 'Unsupported filetype' }, false);
+    }
+};
+// This is the function that gets passed to your controller to manage uploads
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-export function dataUri(req) {
-    dUriParser.format(formatMimeType, buffer);
-}
+export default upload;

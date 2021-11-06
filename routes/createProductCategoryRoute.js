@@ -8,6 +8,7 @@ import getUserById from '../middleware/getUserById.js';
 const router = express.Router();
 
 //only admin can create new categories
+
 router.post(
     '/create/:userId',
     createNewProductCategory,

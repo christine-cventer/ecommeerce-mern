@@ -1,39 +1,39 @@
 import express from 'express';
-// middleware and controllers
 
+// middleware and controllers
 import restrictAuth from '../middleware/restrictUserAccess.js';
 import isUserAdmin from '../middleware/userAuthCheck.js';
 import isUserAuthorized from '../middleware/adminRoleCheck.js';
 import getUserById from '../middleware/getUserById.js';
+import upload from '../middleware/config/multerConfig.js';
 import CreateNewProduct from '../controllers/NewProductController.js';
-import { multerUploads, dataUri } from '../middleware/config/multerConfig.js';
+import { createImageUpload } from '../middleware/config/signedUpload.js';
 
 const router = express.Router();
+
+// request body would log as undefined when
+// upload middleware was before image upload middleware
+// this is because the req.body might not have been fully populated yet
+//  as It depends on the order that the client transmits fields and files to the server.
+// the file was being sent before the classId field, and thus there is no way for multer to know about classId when it's handling the file.
+// the solution was to rearrange the order that the route was accessing the middleware
+
 router.post(
     '/new-product/create/:userId',
     CreateNewProduct,
+    createImageUpload,
+    upload.single('file'),
     isUserAuthorized,
     isUserAdmin,
     restrictAuth,
-    multerUploads,
     (req, res) => {
-        console.log('Image file route: ', req.body);
-        res.send('Success');
+        if (!req.file) {
+            throw Error('File missing');
+        } else {
+            res.send('success');
+        }
     }
 );
 router.param('userId', getUserById);
 
-/**
- Successful test route 
-
- router.post(
-    '/new-product/create/',
-    multerUploads,
-
-    (req, res) => {
-        console.log('Image file route', 'req.file: ', req.file);
-        res.send('Success');
-    }
-);
- */
 export default router;

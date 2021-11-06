@@ -9,9 +9,6 @@ const ProductSchema = new mongoose.Schema(
             required: true,
             maxlength: 32,
         },
-        cloudinary_id: {
-            type: String,
-        },
         description: {
             type: String,
             trim: true,
@@ -32,16 +29,20 @@ const ProductSchema = new mongoose.Schema(
         quantity: {
             type: Number,
         },
-        image: {
-            data: Buffer,
-            contentType: String,
-        },
         shipping: {
             required: false,
             type: Boolean,
+        },
+        file: {
+            type: String,
+        },
+        cloudinary_id: {
+            type: String,
         },
     },
     { timestamps: true }
 );
 
 export default mongoose.model('Product', ProductSchema);
+//    // data: Buffer,
+// contentType: String,
