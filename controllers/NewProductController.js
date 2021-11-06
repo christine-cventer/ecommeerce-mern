@@ -16,13 +16,15 @@ import cloudinary from '../middleware/config/cloudinaryConfig.js';
 
 export default async function CreateNewProduct(req, res, next) {
     try {
-        // Request body is not being logged to console
-        console.log('Request body: ', req);
-        const imgUpload = await cloudinary.uploader.upload(req.file);
+        // console.log('Request body files: ', req.files);
+        // console.log('see here :', req.body);
+        const imgUpload = await cloudinary.uploader.upload(
+            req.files.file.tempFilePath
+        );
 
         // Create new product with image data
         let newProduct = new Product({
-            name: req.body.name,
+            name: req.files.file.name,
             description: req.body.description,
             price: req.body.price,
             category: req.body.category,
