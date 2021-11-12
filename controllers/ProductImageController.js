@@ -17,13 +17,20 @@ import cloudinary from '../middleware/config/cloudinaryConfig.js';
 export default async function CreateNewProduct(req, res, next) {
     try {
         // console.log('Request body files: ', req.files);
-        // console.log('see here :', req.body);
+        // console.log('see here :', req);
         const imgUpload = await cloudinary.uploader.upload(
             req.files.file.tempFilePath
         );
+        // TODO?? ADD image upload validator?
+        // this error is caught in the catch block though
+        // if (!req.files.file || req.files === null) {
+        //     res.send('You must upload a jpeg/jpg file');
+        //     console.log('end point hit');
+        // }
 
         // Create new product with image data
         let newProduct = new Product({
+            file: imgUpload.secure_url,
             name: req.files.file.name,
             description: req.body.description,
             price: req.body.price,
@@ -31,7 +38,6 @@ export default async function CreateNewProduct(req, res, next) {
             quantity: req.body.quantity,
             shipping: req.body.shipping,
             cloudinary_id: imgUpload.public_id,
-            file: imgUpload.secure_url,
         });
         await newProduct.save();
         res.json(newProduct);

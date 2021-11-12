@@ -10,8 +10,6 @@ import {
 } from '../controllers/UserAuthController.js';
 
 import restrictAuth from '../middleware/restrictUserAccess.js';
-import isUserAdmin from '../middleware/userAuthCheck.js';
-import isUserAuthorized from '../middleware/adminRoleCheck.js';
 
 /*
  * @method - POST
