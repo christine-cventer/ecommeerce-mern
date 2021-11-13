@@ -6,7 +6,7 @@ import isUserAdmin from '../middleware/userAuthCheck.js';
 import isUserAuthorized from '../middleware/adminRoleCheck.js';
 import getUserById from '../middleware/getUserById.js';
 import upload from '../middleware/config/multerConfig.js';
-import CreateNewProduct from '../controllers/ProductImageController.js';
+import CreateNewProduct from '../controllers/Products/ProductImageController.js';
 import { createImageUpload } from '../middleware/config/signedUpload.js';
 
 const router = express.Router();

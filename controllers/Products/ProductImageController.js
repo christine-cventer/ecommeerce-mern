@@ -1,5 +1,5 @@
-import Product from '../models/Product.js';
-import cloudinary from '../middleware/config/cloudinaryConfig.js';
+import Product from '../../models/Product.js';
+import cloudinary from '../../middleware/config/cloudinaryConfig.js';
 
 // import upload from '../middleware/config/multerConfig.js';
 
@@ -22,6 +22,7 @@ export default async function CreateNewProduct(req, res, next) {
             req.files.file.tempFilePath
         );
         // TODO?? ADD image upload validator?
+        // TODO - add multer validation for file size
         // this error is caught in the catch block though
         // if (!req.files.file || req.files === null) {
         //     res.send('You must upload a jpeg/jpg file');

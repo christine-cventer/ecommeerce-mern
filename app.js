@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import userRoute from './routes/userRoutes.js';
 import productCategoryRoute from './routes/createProductCategoryRoute.js';
 import productRoutes from './routes/createNewProductRoute.js';
+import productById from './routes/productByIdRoute.js';
 import fileUpload from 'express-fileupload';
 
 const router = express.Router();
@@ -34,6 +35,7 @@ app.use(cookieParser());
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/category', productCategoryRoute);
 app.use('/api/v1/product/', productRoutes);
+app.use('/api/v1/getproduct/', productById);
 
 // //Express Error Handling
 // app.use(function (err, req, res, next) {
