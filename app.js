@@ -35,7 +35,7 @@ app.use(cookieParser());
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/category', productCategoryRoute);
 app.use('/api/v1/product/', productRoutes);
-app.use('/api/v1/getproduct/', productById);
+app.use('/api/v1/get-product-by-id/', productById);
 
 // //Express Error Handling
 // app.use(function (err, req, res, next) {

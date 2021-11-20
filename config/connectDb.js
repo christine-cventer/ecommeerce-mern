@@ -5,7 +5,7 @@ export default async function connectDb() {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
-            useFindAndModify: true,
+            useFindAndModify: false,
         })
         .then(() => console.log('DB Connected'));
 
@@ -13,4 +13,3 @@ export default async function connectDb() {
         console.log(`DB connection error: ${err.message}`);
     });
 }
-
