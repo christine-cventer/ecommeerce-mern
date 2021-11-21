@@ -32,7 +32,7 @@ export default async function CreateNewProduct(req, res, next) {
         // Create new product with image data
         let newProduct = new Product({
             file: imgUpload.secure_url,
-            name: req.files.image.name,
+            name: req.body.name,
             description: req.body.description,
             price: req.body.price,
             category: req.body.category,
