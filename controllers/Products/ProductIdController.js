@@ -41,31 +41,60 @@ export async function ProductDelete(req, res) {
     });
   }
 }
-
-// TODO - build product update controller
-// get product by id
-// allow user to upload a new image with the same category
-
-// TODO - build a route for updating product information
-// build another route for updating the photo
-// use findOneAndUpdate
+// for now, product update works by deleting original product by id and posting a new product to db
+//
 export async function ProductUpdate(req, res, next) {
   try {
-    // body of request is stored in req.query object and not req.body
     let product = await Product.findById({
       _id: req.params.productId,
     });
-    (product.name = req.query.name),
-      (product.description = req.query.description),
-      (product.category = req.query.category),
-      (product.shipping = req.query.shipping),
-      (product.price = req.query.price),
-      (product.quantity = req.query.quantity),
-      await product.save();
-    res.json({
-      msg: "update successful",
-      product: product,
-    });
+    // Update product with req.query not, req.body is null
+    // console.log("request body", req.query);
+
+    // still update product even if an image isn't being uploaded
+    // to do this, do not add an image field to the body of the request
+    if (!req.files || req.files === undefined) {
+      (product.name = req.query.name),
+        (product.description = req.query.description),
+        (product.category = req.query.category),
+        (product.shipping = req.query.shipping),
+        (product.price = req.query.price),
+        (product.quantity = req.query.quantity),
+        await product.save();
+      res.json({
+        msg: "Only product fields updated",
+      });
+    } else {
+      // Upload new file to cloudinary
+      //Delete old file in cloudinary
+      //Create new product in db
+      // Delete old product in db
+      console.log("product 4", product);
+      cloudinary.uploader.destroy(product.cloudinary_id, (e) => {
+        res.json({
+          msg: "Error",
+          error: e,
+        });
+      });
+      const imgUpload = await cloudinary.uploader.upload(
+        req.files.image.tempFilePath
+      );
+      let newProduct = new Product({
+        file: imgUpload.secure_url,
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        category: req.body.category,
+        quantity: req.body.quantity,
+        shipping: req.body.shipping,
+        cloudinary_id: imgUpload.public_id,
+      });
+      await newProduct.save();
+      res.json({
+        msg: "full product update successful",
+        product: newProduct,
+      });
+    }
   } catch (error) {
     return res.json({
       msg: "Error updating product",
@@ -74,4 +103,3 @@ export async function ProductUpdate(req, res, next) {
   }
   next();
 }
-
