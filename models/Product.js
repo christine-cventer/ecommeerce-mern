@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 const { ObjectId } = mongoose.Schema;
 
+// remove name length validation
 const ProductSchema = new mongoose.Schema(
     {
         name: {
             type: String,
             trim: true,
             required: true,
-            maxlength: 32,
         },
         description: {
             type: String,
@@ -21,9 +21,8 @@ const ProductSchema = new mongoose.Schema(
             required: true,
         },
         category: {
-            type: ObjectId,
+            type: String,
             ref: 'Category',
-            maxlength: 15,
             required: true,
         },
         quantity: {
@@ -44,4 +43,3 @@ const ProductSchema = new mongoose.Schema(
 );
 
 export default mongoose.model('Product', ProductSchema);
-

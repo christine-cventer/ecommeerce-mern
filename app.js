@@ -1,12 +1,14 @@
-import express, { json } from 'express';
-import dotenv from 'dotenv';
-import connectDb from './config/connectDb.js';
-import morgan from 'morgan';
-import cookieParser from 'cookie-parser';
-import userRoute from './routes/userRoutes.js';
-import productCategoryRoute from './routes/createProductCategoryRoute.js';
-import productRoutes from './routes/createNewProductRoute.js';
-import fileUpload from 'express-fileupload';
+import express from "express";
+import dotenv from "dotenv";
+import connectDb from "./config/connectDb.js";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
+import userRoute from "./routes/userRoutes.js";
+import productCategoryRoute from "./routes/createProductCategoryRoute.js";
+import productRoutes from "./routes/createNewProductRoute.js";
+import productById from "./routes/productByIdRoute.js";
+import categoryById from "./routes/categoryByIdRoute.js";
+import fileUpload from "express-fileupload";
 
 const router = express.Router();
 connectDb();
@@ -19,21 +21,23 @@ const PORT = process.env.PORT || 8000;
 
 //middleware
 app.use(
-    fileUpload({
-        useTempFiles: true,
-        tempFileDir: '/tmp/',
-    })
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+  })
 );
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(express.json());
 //app.use(expressValidator()); <--- legacy syntax
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 //routes middleware
-app.use('/api/v1/user', userRoute);
-app.use('/api/v1/category', productCategoryRoute);
-app.use('/api/v1/product/', productRoutes);
+app.use("/api/v1/user", userRoute);
+app.use("/api/v1/category", productCategoryRoute);
+app.use("/api/v1/product/", productRoutes);
+app.use("/api/v1/get-product-by-id/", productById);
+app.use("/api/v1/get-category-by-id/", categoryById);
 
 // //Express Error Handling
 // app.use(function (err, req, res, next) {
