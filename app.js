@@ -8,6 +8,7 @@ import productCategoryRoute from "./routes/createProductCategoryRoute.js";
 import productRoutes from "./routes/createNewProductRoute.js";
 import productById from "./routes/productByIdRoute.js";
 import categoryById from "./routes/categoryByIdRoute.js";
+import productsSold from "./routes/productsSoldRoute.js";
 import fileUpload from "express-fileupload";
 
 const router = express.Router();
@@ -38,6 +39,7 @@ app.use("/api/v1/category", productCategoryRoute);
 app.use("/api/v1/product/", productRoutes);
 app.use("/api/v1/get-product-by-id/", productById);
 app.use("/api/v1/get-category-by-id/", categoryById);
+app.use("/api/v1/get-products-sold", productsSold);
 
 // //Express Error Handling
 // app.use(function (err, req, res, next) {
