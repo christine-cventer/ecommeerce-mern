@@ -1,3 +1,4 @@
+import Product from "../../models/Product.js";
 import Category from "../../models/ProductCategory.js";
 
 export async function CategoryById(req, res, next) {
@@ -43,4 +44,19 @@ export async function CategoryUpdate(req, res) {
   } catch (error) {
     msg: "Category update error", error;
   }
+}
+
+export async function getCategoryByProductId(req, res) {
+  try {
+    let categories = await Product.dictinct(
+      "ProductCategory",
+      {},
+      (error, categories) => {
+        if (error) {
+          res.json({ msg: "Error finding categories with that product id" });
+        }
+        return res.json({ msg: "Found categories" }, { categories });
+      }
+    );
+  } catch (error) {}
 }
