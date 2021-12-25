@@ -1,12 +1,12 @@
 import React from "react";
 import NavBar from "../Navbar";
-import SignIn from "../user/UserSignIn";
+import SignUp from "../user/UserSignUp.jsx";
 
 const SignInRoute = () => {
   return (
     <>
       <NavBar />
-      <SignIn />
+      <SignUp />
     </>
   );
 };

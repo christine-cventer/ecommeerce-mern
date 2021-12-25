@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import HomePageRoute from "./pages/routes/HomePageRoute";
 import SignInRoute from "./pages/routes/UserSignInRoute";
-import SignUpRoute from "./pages/routes/UserSignInRoute";
+import SignUpRoute from "./pages/routes/RegisterRoute";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
