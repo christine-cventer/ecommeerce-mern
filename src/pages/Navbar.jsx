@@ -10,12 +10,13 @@ import { userSignOut, isUserSignedIn } from "../authorizations/index";
 const NavBar = () => {
   const [click, setClick] = useState(false);
   const handleClick = () => setClick(!click);
+  // Let's add redirect logic with react router v6
   let navigate = useNavigate();
-
   function redirectToHome() {
     console.log("user signed out");
     return userSignOut(() => navigate("/"));
   }
+
   return (
     <header>
       <nav className="navbar">
@@ -42,6 +43,18 @@ const NavBar = () => {
           <li className="nav-item">
             <Link to="/contact">Contact</Link>
           </li>
+
+          {isUserSignedIn() && isUserSignedIn().user.role === 0 && (
+            <li className="nav-item">
+              <Link to="/profile">Profile</Link>
+            </li>
+          )}
+          {/* only admins may access this page & */}
+          {isUserSignedIn() && isUserSignedIn().user.role === 1 && (
+            <li className="nav-item">
+              <Link to="/admin/dashboard">Admin</Link>
+            </li>
+          )}
           {isUserSignedIn() && (
             <div>
               <li className="nav-item">

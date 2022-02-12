@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import Layout from "../Layout";
-import { userLogin, storeUserData } from "../../authorizations";
+import { userLogin, storeUserData, isUserSignedIn } from "../../authorizations";
 
 const SignIn = () => {
   const [values, setValues] = useState({
@@ -12,6 +12,8 @@ const SignIn = () => {
     redirect: false,
   });
   const { email, password, error, loading, redirect } = values;
+  const { user } = isUserSignedIn();
+  // accepts form data
   const handleChange = (valueType) => (event) => {
     setValues({ ...values, error: false, [valueType]: event.target.value });
   };
@@ -20,15 +22,15 @@ const SignIn = () => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
     userLogin({ email, password }).then((loginData) => {
-      console.log("submit click data", loginData);
-      if (loginData.error) {
+      // console.log("login click data", loginData);
+      if (loginData.errors) {
         return setValues({
           ...values,
           error: loginData.errors,
           loading: false,
         });
       } else {
-        console.log("user sign in true");
+        console.log("user sign in true", loginData);
         storeUserData(loginData, () => {
           setValues({
             ...values,
@@ -58,8 +60,17 @@ const SignIn = () => {
     );
 
   const redirectUser = () => {
-    console.log("Redirect true");
-    if (redirect) return <Navigate to="/" />;
+    // console.log("Redirect true");
+    if (redirect) {
+      if (user && user.role == 1) {
+        return <Navigate to="/admin/dashboard" />;
+      } else {
+        return <Navigate to="/profile" />;
+      }
+    }
+    // if (isUserSignedIn()) {
+    //   return <Navigate to="/home" />;
+    // }
   };
 
   return (
