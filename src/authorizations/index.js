@@ -1,4 +1,5 @@
 import env from "react-dotenv";
+import axios from "axios";
 
 export const userRegister = (userData) => {
   console.log("values:", { userData });
@@ -48,6 +49,7 @@ export const userLogin = (userData) => {
 
 // store user data in local storage
 export const storeUserData = (userData, callback) => {
+  // first check that you are running in a webpage
   if (typeof (window !== "undefined")) {
     localStorage.setItem("token", JSON.stringify(userData));
     callback();
@@ -56,7 +58,7 @@ export const storeUserData = (userData, callback) => {
 
 // remove token from local storage
 // make request to backend
-// redirect user to some page
+// redirect user to some page by passing a function to callback
 export const userSignOut = (callback) => {
   if (typeof (window !== "undefined")) {
     localStorage.removeItem("token");
