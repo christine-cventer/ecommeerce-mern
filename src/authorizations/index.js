@@ -1,5 +1,4 @@
 import env from "react-dotenv";
-import axios from "axios";
 
 export const userRegister = (userData) => {
   console.log("values:", { userData });

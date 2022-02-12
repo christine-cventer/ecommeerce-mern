@@ -8,6 +8,7 @@ import PrivateRoute from "./authorizations/privateRoutes";
 import AdminDashboardRoute from "./pages/routes/AdminDashboardRoute";
 import UserDashboard from "./pages/routes/PrivateRoutes";
 import AdminRoute from "./authorizations/adminRoute";
+import CreateCategoryRoute from "./pages/routes/CreateCategoryRoute";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -35,6 +36,14 @@ function App() {
           element={
             <AdminRoute>
               <AdminDashboardRoute />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/create/category"
+          element={
+            <AdminRoute>
+              <CreateCategoryRoute />
             </AdminRoute>
           }
         />
