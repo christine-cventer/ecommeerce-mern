@@ -2,6 +2,7 @@ import env from "react-dotenv";
 
 export const userRegister = (userData) => {
   console.log("values:", { userData });
+  console.log("url", process.env.API_URL);
   //TODO: change to axios?
   return fetch(`${env.API_URL}/v1/user/signup`, {
     // method

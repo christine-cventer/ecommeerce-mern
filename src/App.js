@@ -9,6 +9,7 @@ import AdminDashboardRoute from "./pages/routes/AdminDashboardRoute";
 import UserDashboard from "./pages/routes/PrivateRoutes";
 import AdminRoute from "./authorizations/adminRoute";
 import CreateCategoryRoute from "./pages/routes/CreateCategoryRoute";
+// import CreateCategory from "./pages/admin/CreateCategory";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 

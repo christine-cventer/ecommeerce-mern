@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Layout from "../Layout";
 import { userLogin, storeUserData, isUserSignedIn } from "../../authorizations";
 
@@ -62,7 +62,7 @@ const SignIn = () => {
   const redirectUser = () => {
     // console.log("Redirect true");
     if (redirect) {
-      if (user && user.role == 1) {
+      if (user && user.role === 1) {
         return <Navigate to="/admin/dashboard" />;
       } else {
         return <Navigate to="/profile" />;
