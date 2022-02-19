@@ -20,14 +20,17 @@ export const createCategory = (userId, token, category) => {
 };
 
 export const createProduct = (userId, token, product) => {
-  return fetch(`${env.API_URL}/v1/product/create/${userId}`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: product,
-  })
+  console.log("hit endpoint", product);
+  return fetch(
+    `http://localhost:8000/api/v1/product/new-product/create/${userId}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: product,
+    }
+  )
     .then((response) => {
       return response.json();
     })

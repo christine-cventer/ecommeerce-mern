@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { useMutate } from "restful-react";
 import { Link } from "react-router-dom";
 import Layout from "../Layout";
 import { isUserSignedIn } from "../../authorizations";
+import { createProduct } from "./API";
 
 const CreateProduct = () => {
   const { user, token } = isUserSignedIn();
+  const [image, setImage] = useState();
+
+  const { mutate: uploadImage } = useMutate({
+    verb: "POST",
+    path: "image-upload",
+  });
+  // const [previewSource, setPreviewSource] = useState();
   const product = {
     name: "",
     description: "",
@@ -21,7 +30,22 @@ const CreateProduct = () => {
     redirectAdmin: false,
     formData: "",
   };
-  const [values, setValues] = useState([product]);
+  const [values, setValues] = useState({
+    name: "",
+    description: "",
+    price: "",
+    category: [],
+    quantity: "",
+    productSold: "",
+    shipping: "",
+    file: "",
+    cloudinary_id: "",
+    loading: false,
+    error: "",
+    createdProduct: "",
+    redirectAdmin: false,
+    // formData: "",
+  });
   // destructure values from state
   const {
     name,
@@ -29,7 +53,6 @@ const CreateProduct = () => {
     price,
     category,
     quantity,
-    productSold,
     shipping,
     file,
     cloudinary_id,
@@ -37,7 +60,7 @@ const CreateProduct = () => {
     error,
     createdProduct,
     redirectAdmin,
-    formData,
+    // formData,
   } = values;
 
   // access form data whenever value changes
@@ -51,13 +74,46 @@ const CreateProduct = () => {
   const handleChange = (name) => (event) => {
     const value = name === "image" ? event.target.files : event.target.value;
     // assign corresponding value to formData field
-    formData.set(name, value);
+    // formData.set(name, value);
     setValues({ ...values, [name]: value });
+    setImage(event.target.files[0]);
   };
+
+  // const imagePreview = (file) => {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onloadend = () => {
+  //     setPreviewSource(reader.result);
+  //   };
+  // };
 
   const clickSubmit = (event) => {
     event.preventDefault();
-    console.log("Form submitted", event.target.value);
+    if (!image) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append("image", image);
+    setValues({ ...values, error: "", loading: true });
+    createProduct(user._id, token, formData).then((data) => {
+      console.log("**", formData);
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          name: "",
+          description: "",
+          price: "",
+          quantity: "",
+          category: "",
+          file: "",
+          cloudinary_id: "",
+          loading: false,
+          createdProduct: data.name,
+        });
+      }
+    });
   };
 
   return (
@@ -103,32 +159,36 @@ const CreateProduct = () => {
             <input
               type="text"
               className="form-control"
-              value={description}
+              value={price}
               onChange={handleChange("price")}
             />
           </div>
           <div className="form-group">
             <label htmlFor="">Category</label>
             <select
-              className="form-control"
+              className="custom-select"
               onChange={handleChange("category")}
             >
-              <option value="">New product</option>
+              <option value="611c4b87d455c27134b21bc3">New product</option>
+              <option value="611c4b87d455c27134b21bd3">
+                New product another
+              </option>
             </select>
           </div>
 
           <div className="form-group">
             <label htmlFor="">Shipping</label>
-            <select
-              className="form-control"
-              onChange={handleChange("description")}
-            >
-              <option value="0">No</option>
-              <option value="1">Yes</option>
+
+            <select name="cars" id="cars">
+              <option value="0">Yes</option>
+              <option value="1">No</option>
             </select>
           </div>
-          <button className="btn btn-outline-primary">Create Product</button>
+          <button className="btn btn-outline-primary" type="submit">
+            Create Product
+          </button>
         </form>
+        {/* {previewSource && <img src={previewSource} alt="selected image" />} */}
       </div>
     </Layout>
   );
