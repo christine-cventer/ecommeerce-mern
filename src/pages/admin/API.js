@@ -15,8 +15,23 @@ export const createCategory = (userId, token, category) => {
       return response.json();
     })
     .catch((error) => {
-      console.log("create category error", error.Message);
+      return "Create category error", error.Message;
     });
 };
 
-export default createCategory;
+export const createProduct = (userId, token, product) => {
+  return fetch(`${env.API_URL}/v1/product/create/${userId}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: product,
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => {
+      return "Create product error", error.Message;
+    });
+};

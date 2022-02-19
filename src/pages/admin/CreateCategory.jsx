@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Layout from "../Layout";
 import { isUserSignedIn } from "../../authorizations";
-import createCategory from "./API";
+import { createCategory } from "./API";
 
 const CreateCategory = () => {
   const [name, setName] = useState("");
@@ -40,7 +40,10 @@ const CreateCategory = () => {
   const successMessage = () => {
     if (success) {
       return (
-        <h3 className="text-success">A category has been created for {name}</h3>
+        <h3 className="text-success">
+          A category has been created for {name} Please{" "}
+          <Link to="/admin/dashboard">Back to dashboard</Link>
+        </h3>
       );
     }
   };
@@ -49,15 +52,17 @@ const CreateCategory = () => {
       console.log("create category error", error);
       return (
         <h3 className="text-danger">
-          Unable to create category, please check logs
+          A category with this name already exists
         </h3>
       );
     }
   };
+
   return (
     <Layout title="Create category">
       {successMessage()}
       {errorMessage()}
+      {/* {directLink()} */}
       <div className="createCategory">
         <form onSubmit={clickSubmit}>
           <div className="form-group">
