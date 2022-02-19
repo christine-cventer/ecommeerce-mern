@@ -7,188 +7,56 @@ import { createProduct } from "./API";
 
 const CreateProduct = () => {
   const { user, token } = isUserSignedIn();
-  const [image, setImage] = useState();
+  const userId = isUserSignedIn().user._id;
+  const [productImage, setProductImage] = useState();
 
   const { mutate: uploadImage } = useMutate({
     verb: "POST",
-    path: "image-upload",
+    path: `http://localhost:8000/api/v1/product/new-product/create/${userId}`,
   });
-  // const [previewSource, setPreviewSource] = useState();
-  const product = {
-    name: "",
-    description: "",
-    price: "",
-    category: [],
-    quantity: "",
-    productSold: "",
-    shipping: "",
-    file: "",
-    cloudinary_id: "",
-    loading: false,
-    error: "",
-    createdProduct: "",
-    redirectAdmin: false,
-    formData: "",
-  };
-  const [values, setValues] = useState({
-    name: "",
-    description: "",
-    price: "",
-    category: [],
-    quantity: "",
-    productSold: "",
-    shipping: "",
-    file: "",
-    cloudinary_id: "",
-    loading: false,
-    error: "",
-    createdProduct: "",
-    redirectAdmin: false,
-    // formData: "",
-  });
-  // destructure values from state
-  const {
-    name,
-    description,
-    price,
-    category,
-    quantity,
-    shipping,
-    file,
-    cloudinary_id,
-    loading,
-    error,
-    createdProduct,
-    redirectAdmin,
-    // formData,
-  } = values;
 
-  // access form data whenever value changes
   useEffect(() => {
-    setValues({ ...values, formData: new FormData() });
+    setProductImage({ ...productImage, formData: new FormData() });
   }, []);
 
-  // populate form data with whatever is in state
-  // form data then gets sent to backend
-  // Create an HOC that grabs name, then event as arguments and assigns to a value
-  const handleChange = (name) => (event) => {
-    const value = name === "image" ? event.target.files : event.target.value;
-    // assign corresponding value to formData field
-    // formData.set(name, value);
-    setValues({ ...values, [name]: value });
-    setImage(event.target.files[0]);
+  const handleChange = (event) => {
+    event.preventDefault();
+    console.log("** event", event.target.files);
+    setProductImage(event.target.files[0]);
   };
 
-  // const imagePreview = (file) => {
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onloadend = () => {
-  //     setPreviewSource(reader.result);
-  //   };
-  // };
-
-  const clickSubmit = (event) => {
-    event.preventDefault();
-    if (!image) {
+  const handleImageUpload = () => {
+    if (!productImage) {
       return;
     }
     const formData = new FormData();
-    formData.append("image", image);
-    setValues({ ...values, error: "", loading: true });
-    createProduct(user._id, token, formData).then((data) => {
-      console.log("**", formData);
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({
-          ...values,
-          name: "",
-          description: "",
-          price: "",
-          quantity: "",
-          category: "",
-          file: "",
-          cloudinary_id: "",
-          loading: false,
-          createdProduct: data.name,
-        });
-      }
-    });
+    formData.append("image", productImage);
+
+    uploadImage(formData)
+      .then((uploadedImage) => {
+        console.log("upload:", uploadedImage);
+      })
+      .catch((_) => {
+        console.log("Oooops, something went wrong!");
+      });
   };
 
   return (
     <Layout title="Create product">
-      <div className="createProduct">
-        <form onSubmit={clickSubmit}>
-          <div className="form-group">
-            <label htmlFor="" className="btn btn-secondary">
-              <input
-                type="file"
-                className="form-control"
-                onChange={handleChange("image")}
-                name="image"
-                accept="image/*"
-                onChange={handleChange("image")}
-              />
-            </label>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="">Name</label>
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={handleChange("name")}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="">Description</label>
-            <textarea
-              className="form-control"
-              value={description}
-              onChange={handleChange("description")}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="">Quantity</label>
-            <input type="number" className="form-control" value={quantity} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="">Price</label>
-            <input
-              type="text"
-              className="form-control"
-              value={price}
-              onChange={handleChange("price")}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="">Category</label>
-            <select
-              className="custom-select"
-              onChange={handleChange("category")}
-            >
-              <option value="611c4b87d455c27134b21bc3">New product</option>
-              <option value="611c4b87d455c27134b21bd3">
-                New product another
-              </option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="">Shipping</label>
-
-            <select name="cars" id="cars">
-              <option value="0">Yes</option>
-              <option value="1">No</option>
-            </select>
-          </div>
-          <button className="btn btn-outline-primary" type="submit">
-            Create Product
-          </button>
-        </form>
-        {/* {previewSource && <img src={previewSource} alt="selected image" />} */}
+      <input
+        onChange={handleChange}
+        accept=".jpg, .png, .jpeg"
+        className="fileInput mb-2"
+        type="file"
+      ></input>
+      <div>
+        <button
+          onClick={handleImageUpload}
+          disabled={!productImage}
+          className="btn btn-primary mb-2"
+        >
+          Upload
+        </button>
       </div>
     </Layout>
   );
