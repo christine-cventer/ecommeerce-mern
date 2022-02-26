@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useMutate } from "restful-react";
 import { Link } from "react-router-dom";
 import Layout from "../Layout";
@@ -6,14 +6,87 @@ import { isUserSignedIn } from "../../authorizations";
 import { createProduct } from "./API";
 
 const CreateProduct = () => {
-  const { user, token } = isUserSignedIn();
-  const [image, setImage] = useState();
+  // const { user, token } = isUserSignedIn();
+  // const [image, setImage] = useState();
 
-  const { mutate: uploadImage } = useMutate({
-    verb: "POST",
-    path: "image-upload",
-  });
-  // const [previewSource, setPreviewSource] = useState();
+  // const { mutate: uploadImage } = useMutate({
+  //   verb: "POST",
+  //   path: "image-upload",
+  // });
+  // // const [previewSource, setPreviewSource] = useState();
+ 
+  // const [values, setValues] = useState({
+  //   name: "",
+  //   description: "",
+  //   price: "",
+  //   category: [],
+  //   quantity: "",
+  //   productSold: "",
+  //   shipping: "",
+  //   file: "",
+  //   cloudinary_id: "",
+  //   loading: false,
+  //   error: "",
+  //   createdProduct: "",
+  //   redirectAdmin: false,
+  //   // formData: "",
+  // });
+  //  destructure values from state
+
+
+  // access form data whenever value changes
+  // useEffect(() => {
+  //   setValues({ ...values, formData: new FormData() });
+  // }, []);
+
+  // populate form data with whatever is in state
+  // form data then gets sent to backend
+  // Create an HOC that grabs name, then event as arguments and assigns to a value
+  // const handleChange = (name) => (event) => {
+  //   const value = name === "image" ? event.target.files : event.target.value;
+  // assign corresponding value to formData field
+  // formData.set(name, value);
+  //   setValues({ ...values, [name]: value });
+  //   setImage(event.target.files);
+  // };
+
+  // const imagePreview = (file) => {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onloadend = () => {
+  //     setPreviewSource(reader.result);
+  //   };
+  // };
+
+  // const clickSubmit = (event) => {
+  //   event.preventDefault();
+  //   if (!image) {
+  //     return;
+  //   }
+  //   const formData = new FormData();
+  //   formData.append("image", image);
+  //   setValues({ ...values, error: "", loading: true });
+  //   createProduct(user._id, token, formData).then((data) => {
+  //     console.log("**", formData);
+  //     if (data.error) {
+  //       setValues({ ...values, error: data.error });
+  //     } else {
+  //       setValues({
+  //         ...values,
+  //         name: "",
+  //         description: "",
+  //         price: "",
+  //         quantity: "",
+  //         category: "",
+  //         file: "",
+  //         cloudinary_id: "",
+  //         loading: false,
+  //         createdProduct: data.name,
+  //       });
+  //     }
+  //   });
+  // };
+
   const product = {
     name: "",
     description: "",
@@ -27,26 +100,10 @@ const CreateProduct = () => {
     loading: false,
     error: "",
     createdProduct: "",
-    redirectAdmin: false,
-    formData: "",
-  };
-  const [values, setValues] = useState({
-    name: "",
-    description: "",
-    price: "",
-    category: [],
-    quantity: "",
-    productSold: "",
-    shipping: "",
-    file: "",
-    cloudinary_id: "",
-    loading: false,
-    error: "",
-    createdProduct: "",
-    redirectAdmin: false,
+    // redirectAdmin: false,
     // formData: "",
-  });
-  // destructure values from state
+  };
+
   const {
     name,
     description,
@@ -63,59 +120,22 @@ const CreateProduct = () => {
     // formData,
   } = values;
 
-  // access form data whenever value changes
-  useEffect(() => {
-    setValues({ ...values, formData: new FormData() });
-  }, []);
+  const [file, setFile] = useState();
+  const [values, setValues] = useState("");
 
-  // populate form data with whatever is in state
-  // form data then gets sent to backend
-  // Create an HOC that grabs name, then event as arguments and assigns to a value
-  const handleChange = (name) => (event) => {
-    const value = name === "image" ? event.target.files : event.target.value;
-    // assign corresponding value to formData field
-    // formData.set(name, value);
-    setValues({ ...values, [name]: value });
-    setImage(event.target.files);
-  };
+  const submit = async e =>{
+    e.preventDefault()
 
-  // const imagePreview = (file) => {
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onloadend = () => {
-  //     setPreviewSource(reader.result);
-  //   };
-  // };
+    const formData = new FormData()
+    formData.append("image", file)
+    formData.append(product, values)
 
-  const clickSubmit = (event) => {
-    event.preventDefault();
-    if (!image) {
-      return;
-    }
-    const formData = new FormData();
-    formData.append("image", image);
-    setValues({ ...values, error: "", loading: true });
-    createProduct(user._id, token, formData).then((data) => {
-      console.log("**", formData);
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({
-          ...values,
-          name: "",
-          description: "",
-          price: "",
-          quantity: "",
-          category: "",
-          file: "",
-          cloudinary_id: "",
-          loading: false,
-          createdProduct: data.name,
-        });
-      }
-    });
-  };
+    const result = await axios.post('/api/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+    console.log(result.data)
+  }
 
+
+  }
   return (
     <Layout title="Create product">
       <div className="createProduct">

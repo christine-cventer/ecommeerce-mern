@@ -19,8 +19,7 @@ export const createCategory = (userId, token, category) => {
     });
 };
 
-export const createProduct = (userId, token, product) => {
-  console.log("hit endpoint", product);
+export const createProduct = (userId, token, productFormData) => {
   return fetch(
     `http://localhost:8000/api/v1/product/new-product/create/${userId}`,
     {
@@ -28,7 +27,7 @@ export const createProduct = (userId, token, product) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      body: product,
+      body: productFormData,
     }
   )
     .then((response) => {
