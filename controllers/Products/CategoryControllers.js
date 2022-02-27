@@ -1,3 +1,5 @@
+import Product from "../../models/Product.js";
+import ProductCategory from "../../models/ProductCategory.js";
 import Category from "../../models/ProductCategory.js";
 
 export async function CategoryById(req, res, next) {
@@ -42,5 +44,34 @@ export async function CategoryUpdate(req, res) {
     });
   } catch (error) {
     msg: "Category update error", error;
+  }
+}
+
+export async function getCategoryByProductId(req, res) {
+  try {
+    let categories = await Product.dictinct(
+      "ProductCategory",
+      {},
+      (error, categories) => {
+        if (error) {
+          res.json({ msg: "Error finding categories with that product id" });
+        }
+        return res.json({ msg: "Found categories" }, { categories });
+      }
+    );
+  } catch (error) {}
+}
+
+export async function getAllCategories(req, res) {
+  try {
+    const productCategories = await ProductCategory.find();
+    !productCategories
+      ? res.json({ msg: "Categories not found" })
+      : res.status(200).json(productCategories);
+  } catch (error) {
+    return res.json({
+      msg: "Unable to get categories",
+      error: error.toString(),
+    });
   }
 }
