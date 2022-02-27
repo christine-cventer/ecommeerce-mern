@@ -24,7 +24,7 @@ const router = express.Router();
 router.post(
     '/new-product/create/:userId',
     CreateNewProduct,
-    createImageUpload,
+    // createImageUpload,
     upload.single('image'),
     isUserAuthorized,
     isUserAdmin,

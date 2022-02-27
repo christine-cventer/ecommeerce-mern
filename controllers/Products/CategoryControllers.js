@@ -1,4 +1,5 @@
 import Product from "../../models/Product.js";
+import ProductCategory from "../../models/ProductCategory.js";
 import Category from "../../models/ProductCategory.js";
 
 export async function CategoryById(req, res, next) {
@@ -59,4 +60,18 @@ export async function getCategoryByProductId(req, res) {
       }
     );
   } catch (error) {}
+}
+
+export async function getAllCategories(req, res) {
+  try {
+    const productCategories = await ProductCategory.find();
+    !productCategories
+      ? res.json({ msg: "Categories not found" })
+      : res.status(200).json(productCategories);
+  } catch (error) {
+    return res.json({
+      msg: "Unable to get categories",
+      error: error.toString(),
+    });
+  }
 }
