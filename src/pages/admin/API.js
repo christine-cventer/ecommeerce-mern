@@ -37,3 +37,19 @@ export const createProduct = (userId, token, productFormData) => {
       return "Create product error", error.Message;
     });
 };
+
+export const getAllCategories = () => {
+  return fetch(
+    "http://localhost:8000/api/v1/get-category-by-id/get-all-categories",
+    {
+      method: "GET",
+    }
+  )
+    .then((response) => {
+      console.log("categories", response);
+      return response.json();
+    })
+    .catch((error) => {
+      return "Get product categories error", error.Message;
+    });
+};

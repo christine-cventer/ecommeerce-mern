@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../Layout";
 import { isUserSignedIn } from "../../authorizations";
-import { createProduct } from "./API";
+import { createProduct, getAllCategories } from "./API";
 
 const CreateProduct = () => {
   const { user, token } = isUserSignedIn();
@@ -25,7 +25,6 @@ const CreateProduct = () => {
     formData: "",
   };
 
-  // const [productImage, setProductImage] = useState([]);
   const [values, setValues] = useState({ product });
 
   const {
@@ -39,10 +38,21 @@ const CreateProduct = () => {
     formData,
   } = values;
 
+  // get categories and assign form data
+  const init = () => {
+    getAllCategories().then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({ ...values, categories: data, formData: new FormData() });
+        // console.log(categories);
+      }
+    });
+  };
+
   // update state and populate formData
   useEffect(() => {
-    setValues({ ...values, formData: new FormData() });
-    // setProductImage(...productImage);
+    init();
   }, []);
 
   const handleChange = (name) => (event) => {
@@ -54,13 +64,6 @@ const CreateProduct = () => {
     }
 
     const value = name === "image" ? event.target.files[0] : event.target.value;
-    // let value;
-
-    // if (event.target.files) {
-    //   setValues({ ...values, [value]: event.target.files[0] });
-    // } else setValues({ ...values, [value]: event.target.value });
-    // console.log("product data", name, value);
-    // assign corresponding value to formData field
     setValues({ ...values, [name]: value });
     formData.set(name, value);
   };
@@ -70,12 +73,11 @@ const CreateProduct = () => {
     setValues({ ...values, error: "", loading: true });
 
     createProduct(user._id, token, formData).then((data) => {
-      console.log("*** data", JSON.stringify(data));
-      console.log("*** formdata", JSON.stringify(formData));
+      // console.log("*** data", JSON.stringify(data));
+      // console.log("*** formdata", JSON.stringify(formData));
 
       if (data.error) {
         setValues({ ...values, error: data.error });
-        // setProductImage(...productImage);
       } else {
         setValues({
           ...values,
@@ -88,6 +90,7 @@ const CreateProduct = () => {
           loading: false,
           createdProduct: data.name,
           formData: "",
+          cloudinary_id: "",
         });
       }
     });
@@ -141,10 +144,14 @@ const CreateProduct = () => {
         <div className="form-group">
           <label htmlFor="">Category</label>
           <select className="custom-select" onChange={handleChange("category")}>
-            <option value="611c4b87d455c27134b21bc3">New product</option>
-            <option value="611c4b87d455c27134b21bd3">
-              New product another
-            </option>
+            <option>Please select a category</option>
+            {categories &&
+              categories.map((category, index) => (
+                <option value={category._id} key={index}>
+                  {" "}
+                  {category.name}
+                </option>
+              ))}
           </select>
         </div>
 
@@ -152,6 +159,7 @@ const CreateProduct = () => {
           <label htmlFor="">Shipping</label>
 
           <select name="cars" id="cars">
+            <option value="0">Shipping option</option>
             <option value="0">Yes</option>
             <option value="1">No</option>
           </select>
