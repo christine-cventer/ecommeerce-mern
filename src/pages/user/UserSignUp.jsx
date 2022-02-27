@@ -41,7 +41,7 @@ const SignUp = () => {
       className="alert alert-danger"
       style={{ display: error ? "" : "none" }}
     >
-      Sign up error
+      {`Sign up error: ${JSON.stringify(error)}`}
     </div>
   );
   const successMessage = () => (

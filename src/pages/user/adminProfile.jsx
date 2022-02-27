@@ -16,7 +16,7 @@ export default function AdminDashboard() {
           </Link>
         </li>
         <li className="list-group-item">
-          <Link to="/create/products" className="nav-link">
+          <Link to="/create/product" className="nav-link">
             Create products
           </Link>
         </li>

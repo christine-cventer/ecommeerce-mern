@@ -1,10 +1,9 @@
 import env from "react-dotenv";
-import axios from "axios";
 
 export const userRegister = (userData) => {
   console.log("values:", { userData });
   //TODO: change to axios?
-  return fetch(`${env.API_URL}/v1/user/signup`, {
+  return fetch("http://localhost:8000/api/v1/user/signup", {
     // method
     // request headers
     //request body
@@ -20,11 +19,11 @@ export const userRegister = (userData) => {
       return response.json(userData);
     })
     .catch((error) => {
-      console.log(error);
+      return `Sign up error: ${JSON.stringify(error)}`;
     });
 };
 export const userLogin = (userData) => {
-  return fetch(`${env.API_URL}/v1/user/signin`, {
+  return fetch("http://localhost:8000/api/v1/user/signin", {
     // method
     // request headers
     //request body
