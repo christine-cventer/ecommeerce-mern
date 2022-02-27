@@ -20,16 +20,13 @@ export const createCategory = (userId, token, category) => {
 };
 
 export const createProduct = (userId, token, productFormData) => {
-  return fetch(
-    `http://localhost:8000/api/v1/product/new-product/create/${userId}`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: productFormData,
-    }
-  )
+  return fetch(`${env.API_URL}/v1/product/new-product/create/${userId}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: productFormData,
+  })
     .then((response) => {
       return response.json();
     })
@@ -39,12 +36,9 @@ export const createProduct = (userId, token, productFormData) => {
 };
 
 export const getAllCategories = () => {
-  return fetch(
-    "http://localhost:8000/api/v1/get-category-by-id/get-all-categories",
-    {
-      method: "GET",
-    }
-  )
+  return fetch(`${env.API_URL}/v1/get-category-by-id/get-all-categories`, {
+    method: "GET",
+  })
     .then((response) => {
       console.log("categories", response);
       return response.json();

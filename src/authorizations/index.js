@@ -3,7 +3,7 @@ import env from "react-dotenv";
 export const userRegister = (userData) => {
   console.log("values:", { userData });
   //TODO: change to axios?
-  return fetch("http://localhost:8000/api/v1/user/signup", {
+  return fetch(`${env.API_URL}/v1/user/signup`, {
     // method
     // request headers
     //request body
@@ -23,7 +23,7 @@ export const userRegister = (userData) => {
     });
 };
 export const userLogin = (userData) => {
-  return fetch("http://localhost:8000/api/v1/user/signin", {
+  return fetch(`${env.API_URL}/v1/user/signin`, {
     // method
     // request headers
     //request body
