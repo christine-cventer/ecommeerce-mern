@@ -36,6 +36,10 @@ const CreateProduct = () => {
     quantity,
     shipping,
     formData,
+    success,
+    loading,
+    error,
+    createdProduct,
   } = values;
 
   // get categories and assign form data
@@ -96,8 +100,32 @@ const CreateProduct = () => {
     });
   };
 
+  const loadingMessage = () => {
+    loading && <div className="alert alert-success">Loading...</div>;
+  };
+
+  const errorMessage = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: error ? "" : "none" }}
+    >
+      {`Create product error: ${JSON.stringify(error)}`}
+    </div>
+  );
+  const successMessage = () => (
+    <div
+      className="alert alert-info"
+      style={{ display: createdProduct ? "" : "none" }}
+    >
+      <Link to="/admin/dashboard">Back to dashboard</Link>
+    </div>
+  );
+
   return (
     <Layout title="Create product">
+      {loadingMessage()}
+      {successMessage()}
+      {errorMessage()}
       <form onSubmit={clickSubmit}>
         <input
           onChange={handleChange("image")}
