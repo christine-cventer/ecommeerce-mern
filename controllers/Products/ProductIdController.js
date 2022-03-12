@@ -24,7 +24,7 @@ export async function ProductDelete(req, res) {
     const product = await Product.findByIdAndDelete({
       _id: req.params.productId,
     });
-    console.log("find product", product.cloudinary_id);
+    // console.log("find product", product.cloudinary_id);
     cloudinary.uploader.destroy(product.cloudinary_id, (e) => {
       res.json({
         msg: "Error",
