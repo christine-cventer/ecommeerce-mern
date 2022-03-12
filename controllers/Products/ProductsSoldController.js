@@ -3,8 +3,8 @@ import Product from "../../models/Product.js";
 
 /**
  * sell/arrival
- * retun by sell =/get-products-sold?sortBy=sold&order=desc&limit=4
- * retun by arrival =/get-products-sold?sortBy=createdAt&order=desc&limit=4
+ * retun by sell : /get-products-sold?sortBy=sold&order=desc&limit=4
+ * retun by arrival : /get-products-sold?sortBy=createdAt&order=desc&limit=4
  * all products are returned if no params are sent
  */
 
