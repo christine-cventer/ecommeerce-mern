@@ -10,6 +10,7 @@ import UserDashboard from "./pages/routes/PrivateRoutes";
 import AdminRoute from "./authorizations/adminRoute";
 import CreateCategoryRoute from "./pages/routes/CreateCategoryRoute";
 import CreateProductRoute from "./pages/routes/CreateProduct";
+import PlaygroundRoute from "./pages/routes/PlaygroundRoute";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -56,6 +57,7 @@ function App() {
             </AdminRoute>
           }
         />
+        <Route path="playground" element={<PlaygroundRoute />} />
       </Routes>
     </>
   );

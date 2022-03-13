@@ -1,23 +1,22 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400&display=swap");
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-:root {
+/* :root {
   --primary: #4b84ac;
   --secondary: #6794b5;
   --darkbluegrey: #28465c;
   --lightblue: #b0c9db;
   --grey: #808080;
-}
+} */
 
-body {
+/* body {
   color: #333;
   font-family: "Poppins", sans-serif;
-}
+} */
 
-ul {
+/* ul {
   list-style: none;
 }
 
@@ -48,4 +47,4 @@ button {
 button:hover {
   border: 1px solid var(--secondary);
   background-color: var(--secondary);
-}
+} */
