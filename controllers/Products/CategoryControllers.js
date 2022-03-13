@@ -49,7 +49,7 @@ export async function CategoryUpdate(req, res) {
 
 export async function getCategoryByProductId(req, res) {
   try {
-    let categories = await Product.dictinct(
+    let categories = await Product.distinct(
       "ProductCategory",
       {},
       (error, categories) => {

@@ -24,7 +24,7 @@ export async function ProductDelete(req, res) {
     const product = await Product.findByIdAndDelete({
       _id: req.params.productId,
     });
-    console.log("find product", product.cloudinary_id);
+    // console.log("find product", product.cloudinary_id);
     cloudinary.uploader.destroy(product.cloudinary_id, (e) => {
       res.json({
         msg: "Error",
@@ -102,4 +102,48 @@ export async function ProductUpdate(req, res, next) {
     });
   }
   next();
+}
+
+export async function getProductsBySearch(req, res) {
+  let order = req.body.order ? req.body.order : "desc";
+  let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+  let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+  let skip = parseInt(req.body.skip); // for loading a certain number of products per page
+  let findArgs = {}; // contains category id and price
+
+  // console.log(order, sortBy, limit, skip, req.body.filters);
+  // console.log("findArgs", findArgs);
+
+  for (let key in req.body.filters) {
+    if (req.body.filters[key].length > 0) {
+      if (key === "price") {
+        // gte -  greater than price [0-10]
+        // lte - less than
+        findArgs[key] = {
+          $gte: req.body.filters[key][0],
+          $lte: req.body.filters[key][1],
+        };
+      } else {
+        findArgs[key] = req.body.filters[key];
+      }
+    }
+  }
+
+  Product.find(findArgs)
+    .select("-file")
+    .populate("ProductCategory")
+    .sort([[sortBy, order]])
+    .skip(skip)
+    .limit(limit)
+    .exec((err, data) => {
+      if (err) {
+        return res.status(400).json({
+          error: "Products not found",
+        });
+      }
+      res.json({
+        size: data.length,
+        data,
+      });
+    });
 }

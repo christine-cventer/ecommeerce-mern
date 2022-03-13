@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 export async function userSignUp(req, res) {
   try {
-    const userEmail = await User.findOne({ name: req.body.email });
+    const userEmail = await User.findOne({ email: req.body.email });
     if (userEmail) {
       res.json({
         msg: "A user with this information already exists",
@@ -72,4 +72,57 @@ export async function getUserById(req, res, next, id) {
     req.profile = user;
     next();
   });
+}
+export async function UpdateUserAccount(req, res, next) {
+  try {
+    let user = await User.findOne({
+      _id: req.params.userId,
+    });
+
+    // Ensure that updated email (if any), does not match an email address already stored in the db
+    const userEmail = await User.findOne({ email: req.body.email });
+    if (userEmail && user._id != req.params.userId) {
+      res.json("Other user exists with this updated email");
+    }
+
+    if (user._id == req.params.userId) {
+      // form fields would have at least one character so I cannot check if the string length is 0 or empty
+      if (req.body.email <= 1 && req.body.name <= 1) {
+        res.json("Form fields cannot be left empty");
+      } else {
+        const { name, email, password } = req.body;
+        const { id } = req.params.userId;
+        const filter = { id };
+
+        const updatedUser = await User.findOneAndUpdate(filter, req.body, {
+          new: true,
+        });
+        return res.status(200).json({
+          message: "Update successful",
+          data: updatedUser,
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  next();
+}
+
+// for users to delete their own accounts
+export async function UserAccountDelete(req, res) {
+  try {
+    const user = await User.findByIdAndDelete({
+      _id: req.params.userId,
+    });
+
+    !user
+      ? res.json({ msg: "User not found by that id" })
+      : res.json({ msg: "Account deleted" });
+  } catch (error) {
+    return res.json({
+      msg: "Unable to delete",
+      error: error.toString(),
+    });
+  }
 }
