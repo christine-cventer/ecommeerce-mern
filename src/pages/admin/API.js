@@ -28,6 +28,7 @@ export const createProduct = (userId, token, productFormData) => {
     body: productFormData,
   })
     .then((response) => {
+      // console.log("product form data", response);
       return response.json();
     })
     .catch((error) => {
@@ -40,7 +41,22 @@ export const getAllCategories = () => {
     method: "GET",
   })
     .then((response) => {
-      console.log("categories", response);
+      // console.log("categories", response);
+      return response.json();
+    })
+    .catch((error) => {
+      return "Get product categories error", error.Message;
+    });
+};
+export const getAllProducts = (sortBy) => {
+  return fetch(
+    `${env.API_URL}/v1/get-products-sold/get-products-sold?sortBy=createdAt&order=desc&limit=4`,
+    {
+      method: "GET",
+    }
+  )
+    .then((response) => {
+      // console.log("categories", response);
       return response.json();
     })
     .catch((error) => {
