@@ -1,0 +1,10 @@
+:root {
+  --secondary-light-bg: #d3d3d3;
+  --primary-dark-bg: #00003f;
+}
+.runningSectionContainer {
+  background-color: var(--primary-dark-bg);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

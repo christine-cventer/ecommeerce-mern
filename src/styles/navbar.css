@@ -1,7 +1,7 @@
 header {
   width: 100%;
   height: 100px;
-  background-color: var(--darkbluegrey);
+  background-color: var(--offwhite);
 }
 
 /* give the header a container*/
@@ -39,11 +39,26 @@ header .logo img {
 }
 
 ul > li > a {
-  color: #f1f1f1;
+  color: var(--primary-dark-bg);
 }
 
 .nav-item {
   padding: 0 1.5rem;
+}
+
+span {
+  color: var(--primary-dark-bg);
+}
+
+.userTools {
+  padding-bottom: 16px;
+  font-size: 20px;
+}
+
+.faUser,
+.faCartPlus,
+.faMagnifyingGlass {
+  margin-left: 40px;
 }
 
 @media screen and (max-width: 960px) {

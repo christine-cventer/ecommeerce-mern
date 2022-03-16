@@ -1,0 +1,11 @@
+.carouselContainer {
+  height: 200px;
+}
+.carouselItemInner {
+  height: 80vh;
+}
+
+.carouselItemInner > img {
+  height: 100%;
+  
+}
