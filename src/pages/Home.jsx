@@ -4,7 +4,7 @@ import { getAllProducts } from "./admin/API";
 import ProductCard from "../components/Product";
 import _ from "lodash";
 
-const HomePage = () => {
+const Home = () => {
   const [productsSold, setProductsSold] = useState([]);
   const [productsByArrival, setProductsByArrival] = useState([]);
   const [error, setError] = useState([]);
@@ -46,4 +46,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Home;

@@ -1,21 +1,30 @@
+:root {
+  --offwhite: #fefcf9;
+}
 .runningSectionHeader {
-  color: #fefcf9;
   display: flex;
   flex-direction: row;
   font-family: "Raleway", sans-serif;
   font-weight: 100;
   font-size: 12px;
 }
+
+.runningSectionHeader p {
+  color: var(--offwhite);
+}
+
 span {
   margin: 10px 0 0 8px;
 }
 
 .headerLeft {
   margin-left: 30px;
+  color: var(--offwhite);
 }
 
 .headerRight {
-  font-size: 100%;
+  color: var(--offwhite);
+  font-size: 18px;
   text-align: center;
   margin-right: 30px;
 }

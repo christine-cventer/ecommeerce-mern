@@ -3,20 +3,22 @@
   margin: 0;
   padding: 0;
 }
-/* :root {
+:root {
   --primary: #4b84ac;
   --secondary: #6794b5;
   --darkbluegrey: #28465c;
+  --primary-dark-bg: #00003f;
+  --offwhite: #fefcf9;
   --lightblue: #b0c9db;
   --grey: #808080;
-} */
+}
 
-/* body {
+body {
   color: #333;
   font-family: "Poppins", sans-serif;
-} */
+}
 
-/* ul {
+ul {
   list-style: none;
 }
 
@@ -47,4 +49,4 @@ button {
 button:hover {
   border: 1px solid var(--secondary);
   background-color: var(--secondary);
-} */
+}

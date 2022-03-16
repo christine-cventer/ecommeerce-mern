@@ -2,10 +2,16 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 // import Logo from "./assets/logo.jpeg";
-import "../styles/NavBarStyles.css";
+import "../styles/navbar.css";
 // import { userSignOut } from "../index";
 import { useNavigate } from "react-router-dom";
 import { userSignOut, isUserSignedIn } from "../authorizations/index";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCartPlus,
+  faMagnifyingGlass,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 const NavBar = () => {
   const [click, setClick] = useState(false);
@@ -73,6 +79,17 @@ const NavBar = () => {
           ) : (
             <FaBars size={20} style={{ color: "#fff" }} />
           )}
+        </div>
+        <div className="userTools">
+          <span className="magnifyingGlass">
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </span>
+          <span className="faCartPlus">
+            <FontAwesomeIcon icon={faCartPlus} />
+          </span>
+          <span className="faUser">
+            <FontAwesomeIcon icon={faUser} />
+          </span>
         </div>
       </nav>
     </header>
