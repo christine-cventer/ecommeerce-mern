@@ -11,7 +11,7 @@ import AdminRoute from "./authorizations/adminRoute";
 import CreateCategoryRoute from "./pages/routes/CreateCategoryRoute";
 import CreateProductRoute from "./pages/routes/CreateProduct";
 import PlaygroundRoute from "./pages/routes/PlaygroundRoute";
-
+import ShopPageRoute from "./pages/routes/ShopPageRoute";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -25,6 +25,7 @@ function App() {
         <Route path="/login" element={<SignInRoute />} />
         <Route path="/register" element={<SignUpRoute />} />
         <Route path="/signout" element={<SignOutRoute />} />
+        <Route path="/shop/product" element={<ShopPageRoute />} />
         <Route
           path="/profile"
           element={
