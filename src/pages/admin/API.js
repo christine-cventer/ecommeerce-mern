@@ -48,6 +48,24 @@ export const getAllCategories = () => {
       return "Get product categories error", error.Message;
     });
 };
+
+//TODO - fix why env variable is not being read
+
+export const getAllCategoriesForShop = () => {
+  return fetch(
+    "http://localhost:8000/api/v1/get-category-by-id/get-all-categories",
+    {
+      method: "GET",
+    }
+  )
+    .then((response) => {
+      // console.log("categories", response);
+      return response.json();
+    })
+    .catch((error) => {
+      return "Get product categories error", error.Message;
+    });
+};
 export const getAllProducts = (sortBy) => {
   return fetch(
     `${env.API_URL}/v1/get-products-sold/get-products-sold?sortBy=createdAt&order=desc&limit=4`,
@@ -61,5 +79,31 @@ export const getAllProducts = (sortBy) => {
     })
     .catch((error) => {
       return "Get product categories error", error.Message;
+    });
+};
+
+export const getFilteredProducts = (skip, limit, filters = {}) => {
+  const data = {
+    limit,
+    skip,
+    filters,
+  };
+
+  return fetch(
+    "http://localhost:8000/api/v1/get-product-by-id/get-product/search",
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => {
+      return "Create category error", error.Message;
     });
 };

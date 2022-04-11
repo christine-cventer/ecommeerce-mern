@@ -11,7 +11,7 @@ const ShopPage = () => {
     filters: { category: [], price: [] },
   });
   const [categories, setCategories] = useState([]);
-  const [limit, setLimit] = useState(6);
+  const [limit, setLimit] = useState(10); // defualed limit is ten per backend controller getProductsBySearch
   const [skip, setSkip] = useState(0);
   const [error, setError] = useState(false);
   const [filteredResults, setFilteredResults] = useState(0);
