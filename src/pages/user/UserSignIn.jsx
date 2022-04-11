@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import Layout from "../Layout";
 import { userLogin, storeUserData, isUserSignedIn } from "../../authorizations";
+import pointer from "../../styles/assets/pointer.jpeg";
+import "../../styles/auth.css";
 
 const SignIn = () => {
   const [values, setValues] = useState({
@@ -74,35 +76,49 @@ const SignIn = () => {
   };
 
   return (
-    <Layout title="Signin Page" className="container col-md-8 offset-md-2">
+    <>
       {errorMessage()}
       {loadingMessage()}
       {redirectUser()}
-      <form action="#">
-        <div className="form-group">
-          <label className="text-muted">Email</label>
-          <input
-            onChange={handleChange("email")}
-            type="email"
-            className="form-control"
-            value={email}
-          />
+      <div className="row">
+        <div className="left-column column">
+          <div className="img-container">
+            <img
+              src={pointer}
+              alt=""
+              style={{ height: "100vh", width: "100%" }}
+            />
+          </div>
         </div>
-        <div className="form-group">
-          <label className="text-muted">Password</label>
-          <input
-            onChange={handleChange("password")}
-            type="password"
-            className="form-control"
-            value={password}
-          />
+        <div className="right-column column">
+          <form action="#">
+            <div className="form-group">
+              <label className="text-muted">Email</label>
+              <input
+                onChange={handleChange("email")}
+                type="email"
+                className="form-control"
+                value={email}
+              />
+            </div>
+            <div className="form-group">
+              <label className="text-muted">Password</label>
+              <input
+                onChange={handleChange("password")}
+                type="password"
+                className="form-control"
+                value={password}
+              />
+            </div>
+            <button onClick={submitClick} className="btn btn-primary">
+              Login
+            </button>
+          </form>
         </div>
-        <button onClick={submitClick} className="btn btn-primary">
-          Submit
-        </button>
-      </form>
+      </div>
+
       {/* {JSON.stringify(values)} */}
-    </Layout>
+    </>
   );
 };
 
