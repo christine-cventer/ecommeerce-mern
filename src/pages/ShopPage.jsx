@@ -15,6 +15,7 @@ const ShopPage = () => {
   const [categories, setCategories] = useState([]);
   const [limit, setLimit] = useState(10); // defauled limit is ten per backend controller getProductsBySearch
   const [skip, setSkip] = useState(0);
+  const [totalProducts, setTotalProducts] = useState(0);
   const [error, setError] = useState(false);
   const [filteredResults, setFilteredResults] = useState(0);
 
@@ -39,8 +40,35 @@ const ShopPage = () => {
         //   data.data.map((datapoint) => datapoint.name)
         // );
         setFilteredResults(data.data);
+        setTotalProducts(data.size);
+        setSkip(0);
       }
     });
+  };
+
+  const loadMoreProducts = () => {
+    let toSkip = skip + limit;
+    getFilteredProducts(toSkip, limit, categoryFilters.filters).then((data) => {
+      if (data.error) {
+        setError(error);
+      }
+      if (data.data) {
+        setFilteredResults([...filteredResults, ...data.data]);
+        setTotalProducts(data.totalProducts);
+        setSkip(0);
+      }
+    });
+  };
+
+  const loadMoreBtn = () => {
+    return (
+      totalProducts > 0 &&
+      totalProducts >= limit && (
+        <button onClick={loadMoreProducts} className="btn btn-warning mb-5">
+          Load More
+        </button>
+      )
+    );
   };
 
   useEffect(() => {
@@ -109,12 +137,16 @@ const ShopPage = () => {
           <h2 className="mb-4">Products</h2>
           <div className="row">
             {/*TODO - map entire product. Figure out how to get image in frontend */}
-            {filteredResults.map((product, key) => (
-              <Card>
-                <Card.Body>{product.name}</Card.Body>
-              </Card>
-            ))}
+            {_.isArray(filteredResults) &&
+              !_.isEmpty(filteredResults) &&
+              filteredResults.map((product, key) => (
+                <Card>
+                  <Card.Body>{product.name}</Card.Body>
+                </Card>
+              ))}
           </div>
+          <hr />
+          {loadMoreBtn()}
         </div>
       </div>
     </Layout>
