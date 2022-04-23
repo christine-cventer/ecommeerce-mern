@@ -4,6 +4,7 @@ import Checkbox from "../components/Checkbox";
 import RadioBox from "../components/RadioBox";
 import { prices } from "./admin/FixedPrices";
 import Card from "react-bootstrap/Card";
+import ProductSearch from "../components/Search";
 import _ from "lodash";
 
 import { getAllCategoriesForShop, getFilteredProducts } from "./admin/API";
@@ -107,6 +108,7 @@ const ShopPage = () => {
   return (
     <Layout title="Shop Page" description="For all your shopping needs">
       <div className="col-4">
+        <ProductSearch />
         <h4>Filter by category</h4>
         <div className="row">
           <div className="col-4">
