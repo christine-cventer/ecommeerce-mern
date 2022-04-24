@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getAllCategoriesForShop } from "../pages/admin/API";
+import { getAllCategories } from "../pages/admin/API";
 import Card from "react-bootstrap/esm/Card";
+import _ from "lodash";
 
 const ProductSearch = () => {
   const [data, setData] = useState({
@@ -12,11 +13,10 @@ const ProductSearch = () => {
   });
 
   const loadCategories = () => {
-    getAllCategoriesForShop().then((data) => {
-      console.log("*category data", data);
+    getAllCategories().then((data) => {
       if (data.error) {
         console.log(data.error);
-      } else setData({ ...data, categories: data });
+      } else setData({ ...data, categories: data.productCategories });
     });
   };
 
@@ -38,11 +38,13 @@ const ProductSearch = () => {
                   onChange={handleChange("category")}
                 >
                   <option value="All">Select a category</option>
-                  {categories.map((category, index) => (
-                    <option key={index} value={category._id}>
-                      {category.name}
-                    </option>
-                  ))}
+                  {_.isArray(categories) &&
+                    !_.isEmpty(categories) &&
+                    categories.map((category, index) => (
+                      <option key={index} value={category._id}>
+                        {category.name}
+                      </option>
+                    ))}
                 </select>
               </div>
               <input
@@ -57,7 +59,6 @@ const ProductSearch = () => {
             </div>
           </span>
         </form>
-        ;
       </>
     );
   };
