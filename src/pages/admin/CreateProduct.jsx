@@ -31,7 +31,7 @@ const CreateProduct = () => {
     name,
     description,
     price,
-    categories,
+    productCategories,
     category,
     quantity,
     shipping,
@@ -42,9 +42,10 @@ const CreateProduct = () => {
     createdProduct,
   } = values;
 
-  // get categories and assign form data
+  // get productCategories and assign form data
   const init = () => {
     getAllCategories().then((data) => {
+      console.log("*", data);
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -173,8 +174,8 @@ const CreateProduct = () => {
           <label htmlFor="">Category</label>
           <select className="custom-select" onChange={handleChange("category")}>
             <option>Please select a category</option>
-            {categories &&
-              categories.map((category, index) => (
+            {productCategories &&
+              productCategories.map((category, index) => (
                 <option value={category._id} key={index}>
                   {" "}
                   {category.name}

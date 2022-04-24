@@ -26,21 +26,27 @@ const Checkbox = ({ categories, handleFilters }) => {
     // console.log("*", newCategoryId); // should not be empty
   };
 
-  return categories.map((category, index) => (
-    <li className="list-unstyled" key={index}>
-      <input
-        onChange={() => handleToggle(category._id)}
-        type="checkbox"
-        name=""
-        id=""
-        className="form-check-input"
-        value={categorySelected.indexOf(category._id === -1)}
-      />
-      <label htmlFor="" className="form-check-label">
-        {category.name}
-      </label>
-    </li>
-  ));
+  return (
+    <>
+      {_.isArray(categories) &&
+        !_.isEmpty(categories) &&
+        categories.map((category, index) => (
+          <li className="list-unstyled" key={index}>
+            <input
+              onChange={() => handleToggle(category._id)}
+              type="checkbox"
+              name=""
+              id=""
+              className="form-check-input"
+              value={categorySelected.indexOf(category._id === -1)}
+            />
+            <label htmlFor="" className="form-check-label">
+              {category.name}
+            </label>
+          </li>
+        ))}
+    </>
+  );
 };
 
 export default Checkbox;

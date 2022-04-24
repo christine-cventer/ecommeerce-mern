@@ -7,7 +7,7 @@ import Card from "react-bootstrap/Card";
 import ProductSearch from "../components/Search";
 import _ from "lodash";
 
-import { getAllCategoriesForShop, getFilteredProducts } from "./admin/API";
+import { getAllCategories, getFilteredProducts } from "./admin/API";
 
 const ShopPage = () => {
   const [categoryFilters, setCategoryFilters] = useState({
@@ -22,11 +22,20 @@ const ShopPage = () => {
 
   // get categories and assign form data
   const init = () => {
-    getAllCategoriesForShop().then((data) => {
+    getAllCategories().then((data) => {
+      // if (data) {
+      //   if (_.isArray(data.productCategories)) {
+      //     console.log("Yes");
+      //   }
+      // }
       if (data.error) {
         setError(data.error);
-      } else {
-        setCategories(data);
+      }
+      if (
+        _.isArray(data.productCategories) &&
+        !_.isEmpty(data.productCategories)
+      ) {
+        setCategories(data.productCategories);
       }
     });
   };
@@ -121,7 +130,6 @@ const ShopPage = () => {
             </ul>
           </div>
         </div>
-        <div className="col-8">{JSON.stringify(categoryFilters)}</div>
 
         <h4>Filter by price</h4>
         <div className="row">
