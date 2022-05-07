@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllCategories } from "../pages/admin/API";
+import { getAllCategories, listProductsFromSearch } from "../pages/admin/API";
 import Card from "react-bootstrap/esm/Card";
 import _ from "lodash";
 
@@ -15,16 +15,43 @@ const ProductSearch = () => {
   const loadCategories = () => {
     getAllCategories().then((data) => {
       if (data.error) {
-        console.log(data.error);
+        console.log(data.error); // TODO find a better way to provide error handling
       } else setData({ ...data, categories: data.productCategories });
     });
   };
 
+  // destructuring allows us to get all categories
   const { categories, category, search, results, searched } = data;
   // get all categories and populate state when component mounts
   useEffect(() => {
     loadCategories();
   }, []);
+
+  const handleChange = (name) => (event) => {
+    // name can be either category or the search term based on the target value
+    setData({ ...data, [name]: event.target.value, searched: false });
+  };
+
+  const searchData = () => {
+    console.log("search data", search, category);
+    if (search) {
+      listProductsFromSearch({
+        search: search || undefined,
+        category: category,
+      }).then((response) => {
+        if (data.error) {
+          console.log("Error getting products from search");
+        } else {
+          setData({ ...data, results: data, searched: true });
+        }
+      });
+    }
+  };
+
+  const searchSubmit = (event) => {
+    event.preventDefault();
+    searchData();
+  };
 
   const searchForm = () => {
     return (
@@ -63,12 +90,12 @@ const ProductSearch = () => {
     );
   };
 
-  const handleChange = () => {};
-
-  const searchSubmit = () => {};
   return (
     <div className="row">
-      <div className="container">{searchForm()}</div>
+      <div className="container">
+        {searchForm()}
+        {JSON.stringify(results)}
+      </div>
     </div>
   );
 };

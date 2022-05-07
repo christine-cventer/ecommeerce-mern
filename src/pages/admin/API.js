@@ -1,4 +1,4 @@
-
+import queryString from "query-string";
 export const createCategory = (userId, token, category) => {
   return fetch(
     `${process.env.REACT_APP_API_URL}/v1/category/create/${userId}`,
@@ -93,5 +93,24 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
     })
     .catch((error) => {
       return "Create category error", error.Message;
+    });
+};
+
+// params are category id or search term
+export const listProductsFromSearch = (params) => {
+  const query = queryString.stringify(params);
+  console.log("query", query);
+  return fetch(
+    `${process.env.REACT_APP_API_URL}/v1/get-product/search?${query}`,
+    {
+      method: "GET",
+    }
+  )
+    .then((response) => {
+      // console.log("cproducts", response);
+      return response.json();
+    })
+    .catch((error) => {
+      return "Get product error", error;
     });
 };

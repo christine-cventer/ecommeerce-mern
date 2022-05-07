@@ -1,9 +1,7 @@
-import env from "react-dotenv";
-
 export const userRegister = (userData) => {
   console.log("values:", { userData });
-  //TODO: change to axios?
-  return fetch(`${env.API_URL}/v1/user/signup`, {
+  //TODO: change to axios because apparently using the fetch module is not as safe (see npm audit logs)
+  return fetch(`${process.env.API_URL}/v1/user/signup`, {
     // method
     // request headers
     //request body
@@ -23,7 +21,7 @@ export const userRegister = (userData) => {
     });
 };
 export const userLogin = (userData) => {
-  return fetch(`${env.API_URL}/v1/user/signin`, {
+  return fetch(`${process.env.API_URL}/v1/user/signin`, {
     // method
     // request headers
     //request body
@@ -63,7 +61,7 @@ export const userSignOut = (callback) => {
     localStorage.removeItem("token");
     callback();
 
-    return fetch(`${env.API_URL}/v1/user/signout`, {
+    return fetch(`${process.env.API_URL}/v1/user/signout`, {
       method: "GET",
       headers: {
         Accept: "application/json",
