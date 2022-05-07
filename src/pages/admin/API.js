@@ -101,7 +101,7 @@ export const listProductsFromSearch = (params) => {
   const query = queryString.stringify(params);
   console.log("query", query);
   return fetch(
-    `${process.env.REACT_APP_API_URL}/v1/get-product/search?${query}`,
+    `${process.env.REACT_APP_API_URL}/v1/get-product-by-id/get-product/search?${query}`,
     {
       method: "GET",
     }

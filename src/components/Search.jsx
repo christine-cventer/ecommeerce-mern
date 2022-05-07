@@ -53,6 +53,19 @@ const ProductSearch = () => {
     searchData();
   };
 
+  // set default value for results in case there are no results in state
+  const searchedProducts = (results = []) => {
+    return (
+      <div className="row">
+        {_.isArray(results) &&
+          !_.isEmpty(results) &&
+          results.map((product, index) => (
+            <Card key={index} product={product} />
+          ))}
+      </div>
+    );
+  };
+
   const searchForm = () => {
     return (
       <>
@@ -94,7 +107,8 @@ const ProductSearch = () => {
     <div className="row">
       <div className="container">
         {searchForm()}
-        {JSON.stringify(results)}
+        {/* {JSON.stringify(results)} */}
+        <div className="container-fluid mb-3">{searchedProducts(results)}</div>
       </div>
     </div>
   );
