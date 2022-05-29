@@ -107,9 +107,9 @@ export async function ProductUpdate(req, res, next) {
 export async function getProductsBySearch(req, res) {
   let order = req.body.order ? req.body.order : "desc";
   let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
-  let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+  let limit = req.body.limit ? parseInt(req.body.limit) : 10;
   let skip = parseInt(req.body.skip); // for loading a certain number of products per page
-  let findArgs = {}; // contains category id and price
+  let findArgs = {}; // contains category id and price (maintained in state in front end)
 
   // console.log(order, sortBy, limit, skip, req.body.filters);
   // console.log("findArgs", findArgs);
@@ -117,11 +117,11 @@ export async function getProductsBySearch(req, res) {
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
       if (key === "price") {
-        // gte -  greater than price [0-10]
+        // gte -  greater than price [0-10] etc
         // lte - less than
         findArgs[key] = {
-          $gte: req.body.filters[key][0],
-          $lte: req.body.filters[key][1],
+          $gte: req.body.filters[key][0], // first value of price. e.g the 1 in 10
+          $lte: req.body.filters[key][1], // second price value e.g the 0 in 10
         };
       } else {
         findArgs[key] = req.body.filters[key];
@@ -135,9 +135,9 @@ export async function getProductsBySearch(req, res) {
     .sort([[sortBy, order]])
     .skip(skip)
     .limit(limit)
-    .exec((err, data) => {
-      if (err) {
-        return res.status(400).json({
+    .exec((error, data) => {
+      if (error) {
+        return res.status(404).json({
           error: "Products not found",
         });
       }

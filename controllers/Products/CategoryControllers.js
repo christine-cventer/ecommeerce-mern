@@ -67,7 +67,7 @@ export async function getAllCategories(req, res) {
     const productCategories = await ProductCategory.find();
     !productCategories
       ? res.json({ msg: "Categories not found" })
-      : res.status(200).json(productCategories);
+      : res.status(200).json({ msg: "Categories", productCategories });
   } catch (error) {
     return res.json({
       msg: "Unable to get categories",
