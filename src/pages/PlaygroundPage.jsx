@@ -1,59 +1,14 @@
-// import React from "react";
-// import RunnerSection from "../components/RunningSection";
-// import NavBar from "./Navbar";
-// import "../styles/playground.css";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
-// import {
-//   faFacebook,
-//   faInstagram,
-//   faTwitter,
-// } from "@fortawesome/free-brands-svg-icons";
-// import MidSectionComponent from "../components/Carousel";
-// import FeaturedProducts from "../components/FeaturedProducts";
+import React from "react";
 
-// const PlaygroundPage = () => {
-//   const styleContent = (
-//     <div className="runningSectionHeader">
-//       <span className="headerLeft">
-//         <FontAwesomeIcon icon={faEnvelope} />
-//       </span>
-//       <span>
-//         {" "}
-//         <p>randomemail@mail.com</p>
-//       </span>
-//       <span className="headerLeft">
-//         {" "}
-//         <FontAwesomeIcon icon={faPhone} />
-//       </span>
-//       <span>
-//         {" "}
-//         <p>888-888-8888</p>
-//       </span>
-//     </div>
-//   );
+const PlaygroundPage = () => {
+  const imgName = "/w7hw5r020u6j7ssh9spw";
+  const imgUrl = process.env.REACT_APP_CLOUDINARY_BASE_URL + imgName;
+  console.log(imgUrl);
+  return (
+    <div>
+      <img src={imgUrl} />
+    </div>
+  );
+};
 
-//   const rightContent = (
-//     <div className="runningSectionHeader">
-//       <span className="headerRight">
-//         <FontAwesomeIcon icon={faFacebook} />
-//       </span>
-//       <span className="headerRight">
-//         <FontAwesomeIcon icon={faInstagram} />
-//       </span>
-//       <span className="headerRight">
-//         <FontAwesomeIcon icon={faTwitter} />
-//       </span>
-//     </div>
-//   );
-
-//   return (
-//     <>
-//       <RunnerSection leftContent={styleContent} rightContent={rightContent} />
-//       <NavBar />
-//       <MidSectionComponent />
-//     </>
-//   );
-// };
-
-// export default PlaygroundPage;
+export default PlaygroundPage;
