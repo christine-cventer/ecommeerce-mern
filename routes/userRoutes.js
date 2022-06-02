@@ -9,7 +9,7 @@ import {
   getUserById,
   UpdateUserAccount,
   UserAccountDelete,
-} from "../controllers/UserAuthController.js";
+} from "../controllers/users/UserAuthController.js";
 
 import restrictAuth from "../middleware/restrictUserAccess.js";
 

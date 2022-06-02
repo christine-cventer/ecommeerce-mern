@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../../models/User.js";
 
 //generates signed token
 import jwt from "jsonwebtoken";
@@ -115,10 +115,11 @@ export async function UserAccountDelete(req, res) {
     const user = await User.findByIdAndDelete({
       _id: req.params.userId,
     });
-
-    !user
-      ? res.json({ msg: "User not found by that id" })
-      : res.json({ msg: "Account deleted" });
+    // users will be logged out after deleting their own accounts 
+    // admin is role 0 and users are role 1
+    req.profile.role === 1
+      ? res.clearCookie("t")
+      : res.json({ message: "Account deleted" });
   } catch (error) {
     return res.json({
       msg: "Unable to delete",

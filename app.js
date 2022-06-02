@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import connectDb from "./config/connectDb.js";
+import connectDb from "./middleware/config/connectDb.js";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import userRoute from "./routes/userRoutes.js";
@@ -19,9 +19,9 @@ dotenv.config();
 
 const app = express();
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT;
 
-//middleware
+//facilitates image uploads
 app.use(
   fileUpload({
     useTempFiles: true,
@@ -31,7 +31,6 @@ app.use(
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
-//app.use(expressValidator()); <--- legacy syntax
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
@@ -42,21 +41,5 @@ app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/get-product-by-id/", productById);
 app.use("/api/v1/get-category-by-id/", categoryById);
 app.use("/api/v1/get-products-sold", productsSold);
-
-// //Express Error Handling
-// app.use(function (err, req, res, next) {
-//     if (err instanceof multer.MulterError) {
-//         res.statusCode = 400;
-//         res.send(err.code);
-//     } else if (err) {
-//         if (err.message === 'FILE_MISSING') {
-//             res.statusCode = 400;
-//             res.send('FILE_MISSING');
-//         } else {
-//             res.statusCode = 500;
-//             res.send('GENERIC_ERROR');
-//         }
-//     }
-// });
 
 app.listen(PORT, () => console.log(`Listening on port:${PORT}`));
