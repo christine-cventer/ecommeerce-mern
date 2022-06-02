@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "./Layout";
 import Checkbox from "../components/Checkbox";
 import RadioBox from "../components/RadioBox";
+import Button from "react-bootstrap/Button";
 import { prices } from "./admin/FixedPrices";
 import Card from "react-bootstrap/Card";
 import ProductSearch from "../components/Search";
@@ -19,6 +20,8 @@ const ShopPage = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [error, setError] = useState(false);
   const [filteredResults, setFilteredResults] = useState(0);
+  // const imgName = "/w7hw5r020u6j7ssh9spw";
+  const imgUrl = process.env.REACT_APP_CLOUDINARY_BASE_URL;
 
   // get categories and assign form data
   const init = () => {
@@ -143,19 +146,35 @@ const ShopPage = () => {
             </ul>
           </div>
         </div>
-        <div className="col-8">
-          <h2 className="mb-4">Products</h2>
-          <div className="row">
+        <div>
+          <h2>Products</h2>
+          <div>
             {/*TODO - map entire product. Figure out how to get image in frontend */}
             {_.isArray(filteredResults) &&
               !_.isEmpty(filteredResults) &&
-              filteredResults.map((product, key) => (
-                <Card>
-                  <Card.Body>{product.name}</Card.Body>
-                </Card>
-              ))}
+              filteredResults.map(
+                (product, key) => (
+                  // (<img src={imgUrl + "/" + product.cloudinary_id} />),
+                  console.log(imgUrl + "/" + product.cloudinary_id),
+                  (
+                    <Card style={{ width: "30rem" }}>
+                      <Card.Img
+                        variant="top"
+                        src={imgUrl + "/" + product.cloudinary_id}
+                        style={{ height: "10rem", width: "26rem" }}
+                      />
+                      <Card.Body>
+                        <Card.Title>{product.name}</Card.Title>
+                        <Card.Text>{product.description}</Card.Text>
+                        <Button variant="primary">Go somewhere</Button>
+                      </Card.Body>
+                    </Card>
+                  )
+                )
+              )}
           </div>
           <hr />
+
           {loadMoreBtn()}
         </div>
       </div>
