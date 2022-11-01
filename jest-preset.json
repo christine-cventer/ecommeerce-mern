@@ -1,0 +1,8 @@
+{
+  "preset": "jest",
+  "testEnvironment": "[node, jsdom]",
+  "testMatch": ["**/**/*.test.js"],
+  "verbose": true,
+  "forceExit": true,
+  "clearMocks": true
+}

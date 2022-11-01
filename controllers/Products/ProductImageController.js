@@ -45,7 +45,7 @@ export default async function CreateNewProduct(req, res, next) {
     res.json({ msg: "Product creation success", newProduct });
   } catch (error) {
     console.log("Error uploading image: ", error);
-    res.send(error);
+    // res.send(error);
   }
-  next();
+  // next();
 }

@@ -1,6 +1,12 @@
 import Product from "../../models/Product.js";
 import cloudinary from "../../middleware/config/cloudinaryConfig.js";
 
+// export const productByIdTest = (_id) => {
+//   Product.findById({ _id }).then((doc) => {
+//     return JSON.parse(JSON.stringify(doc));
+//   });
+// };
+
 export async function ProductById(req, res, next) {
   try {
     const product = await Product.findOne({ _id: req.params.productId });
