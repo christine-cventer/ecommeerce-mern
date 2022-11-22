@@ -9,16 +9,12 @@ import cloudinary from "../../middleware/config/cloudinaryConfig.js";
 
 export async function ProductById(req, res, next) {
   try {
-    const product = await Product.findOne({ _id: req.params.productId });
-    !product
-      ? res.json({ msg: "Product does not exist" })
-      : res.json({ msg: "Found product", product });
+    const product = await Product.findById(req.params.productId);
+    !product ? res.send("no product found with this id") : res.send(product);
   } catch (e) {
-    return res.json({
-      msg: e.Message,
-    });
+    console.log(e);
+    next(e);
   }
-  next();
 }
 
 export function ProductRead(req, res) {
