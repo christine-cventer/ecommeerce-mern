@@ -16,6 +16,7 @@ export async function CategoryById(req, res, next) {
   next();
 }
 
+//TODO - restrict to only allow admin to delete items
 export async function CategoryDelete(req, res) {
   try {
     const category = await Category.findByIdAndDelete({
@@ -43,7 +44,10 @@ export async function CategoryUpdate(req, res) {
       msg: "Category updated, be sure to update products associated with this category",
     });
   } catch (error) {
-    msg: "Category update error", error;
+    return res.json({
+      msg: "Error updating category",
+      error: error.toString(),
+    });
   }
 }
 
@@ -67,7 +71,7 @@ export async function getAllCategories(req, res) {
     const productCategories = await ProductCategory.find();
     !productCategories
       ? res.json({ msg: "Categories not found" })
-      : res.status(200).json(productCategories);
+      : res.status(200).json({ msg: "Categories", productCategories });
   } catch (error) {
     return res.json({
       msg: "Unable to get categories",

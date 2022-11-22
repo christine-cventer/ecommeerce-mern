@@ -3,28 +3,26 @@ import express from 'express';
 // middleware and controllers
 import restrictAuth from '../middleware/restrictUserAccess.js';
 import isUserAdmin from '../middleware/userAuthCheck.js';
-import isUserAuthorized from '../middleware/adminRoleCheck.js';
-import getUserById from '../middleware/getUserById.js';
+import isUserAuthorized from '../middleware/isUserAdminCheck.js';
+import getUserById from '../middleware/GetUserById.js';
 import upload from '../middleware/config/multerConfig.js';
-import CreateNewProduct from '../controllers/Products/ProductImageController.js';
-import { createImageUpload } from '../middleware/config/signedUpload.js';
+import CreateNewProduct from '../controllers/products/ProductImageController.js';
 
 const router = express.Router();
 
 // request body would log as undefined when
-// upload middleware was before image upload controller
+// upload middleware is hoisted above image upload controller
 // this is because the req.body might not have been fully populated yet
 //  as It depends on the order that the client transmits fields and files to the server.
 // the file was being sent before the controller property fields, and thus there is no way for multer to know about classId when it's handling the file.
 // the solution was to rearrange the order that the route was accessing the middleware
-// 11 - 11 - 21
+
 // Also noticed that in order to test the image upload route,
-//     you need to start a new HTTP request in Postman and not use a version that was saved
+// you need to start a new HTTP request in Postman and not use a version that was saved
 
 router.post(
     '/new-product/create/:userId',
     CreateNewProduct,
-    // createImageUpload,
     upload.single('image'),
     isUserAuthorized,
     isUserAdmin,

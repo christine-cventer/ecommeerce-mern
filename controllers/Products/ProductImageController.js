@@ -5,7 +5,7 @@ import cloudinary from "../../middleware/config/cloudinaryConfig.js";
 
 // console.log(upload);
 /**
- *  Upload image to cloudinary, store the path to a variable.
+ *  Upload image to cloudinary, store the cloudinary path to a variable.
  * Use cloudinary config file and multer config to support upload
  *
  *  Create a new product with default properties
@@ -30,6 +30,7 @@ export default async function CreateNewProduct(req, res, next) {
     // }
 
     // Create new product with image data
+    // see where the path to the image is stored in cloudinary_id
     let newProduct = new Product({
       file: imgUpload.secure_url,
       name: req.body.name,
@@ -44,7 +45,7 @@ export default async function CreateNewProduct(req, res, next) {
     res.json({ msg: "Product creation success", newProduct });
   } catch (error) {
     console.log("Error uploading image: ", error);
-    res.send(error);
+    // res.send(error);
   }
-  next();
+  // next();
 }

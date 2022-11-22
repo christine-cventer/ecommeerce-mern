@@ -7,12 +7,12 @@ import {
   CategoryUpdate,
   getCategoryByProductId,
   getAllCategories,
-} from "../controllers/Products/CategoryControllers.js";
+} from "../controllers/products/CategoryControllers.js";
 
 router.get("/get-category/:categoryId", CategoryById);
 router.get("/get-all-categories", getAllCategories);
-router.get("/get-dist-categories/", getCategoryByProductId);
-router.put("/update-category:categoryId", CategoryUpdate);
+router.get("/get-distinct-categories/", getCategoryByProductId);
+router.put("/update-category/:categoryId", CategoryUpdate);
 router.delete("/delete-category/:categoryId", CategoryDelete);
 
 export default router;

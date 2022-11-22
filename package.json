@@ -1,37 +1,48 @@
 {
-    "name": "ecommerce-mern",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "type": "module",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon app.js"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "cloudinary": "^1.26.3",
-        "connect-multiparty": "^2.2.0",
-        "cookie-parser": "^1.4.5",
-        "cors": "^2.8.5",
-        "datauri": "^4.1.0",
-        "dotenv": "^10.0.0",
-        "express": "^4.17.1",
-        "express-fileupload": "^1.1.1",
-        "express-jwt": "^6.0.0",
-        "express-validator": "^6.12.1",
-        "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.13.3",
-        "morgan": "^1.10.0",
-        "multer": "^1.4.3",
-        "nodemon": "^2.0.12",
-        "uuid": "^8.3.2"
-    },
-    "devDependencies": {
-        "@babel/cli": "^7.14.8",
-        "@babel/core": "^7.14.8",
-        "@babel/preset-env": "^7.14.8"
-    }
+  "name": "ecommerce-mern",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "cross-env NODE_ENV=development mocha ./__tests__/**/**/*.test.js --exit",
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cloudinary": "^1.26.3",
+    "connect-multiparty": "^2.2.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "datauri": "^4.1.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.1",
+    "express-jwt": "^6.1.2",
+    "express-validator": "^6.12.1",
+    "jsonwebtoken": "^8.5.1",
+    "mockingoose": "^2.15.2",
+    "mockingoose--temp-fix": "^2.8.2",
+    "mongoose": "^5.13.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.3",
+    "nodemon": "^2.0.12",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1",
+    "chai-http": "^4.3.0",
+    "cross-env": "^7.0.3",
+    "mocha": "^10.1.0",
+    "mongodb-memory-server": "^8.9.3",
+    "sinon": "^14.0.2",
+    "sinon-chai": "^3.7.0",
+    "supertest": "^6.3.0"
+  }
 }

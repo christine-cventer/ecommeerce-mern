@@ -1,9 +1,9 @@
 import express from 'express';
 import restrictAuth from '../middleware/restrictUserAccess.js';
 import isUserAdmin from '../middleware/userAuthCheck.js';
-import isUserAuthorized from '../middleware/adminRoleCheck.js';
-import createNewProductCategory from '../controllers/Products/ProductCategoryController.js';
-import getUserById from '../middleware/getUserById.js';
+import isUserAuthorized from '../middleware/isUserAdminCheck.js';
+import createNewProductCategory from '../controllers/products/CreateProductCategoryController.js';
+import getUserById from '../middleware/GetUserById.js';
 
 const router = express.Router();
 

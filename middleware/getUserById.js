@@ -1,4 +1,4 @@
-//allows one to search for a user where id is a key
+//allows one to search for a user by their id
 import User from '../models/User.js';
 
 export default async function getUserById(req, res, next, id) {
