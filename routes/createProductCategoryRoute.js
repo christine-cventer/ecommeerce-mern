@@ -10,7 +10,7 @@ const router = express.Router();
 //only admin can create new categories
 
 router.post(
-  "/create/:userId",
+  "/create-profile/:userId",
   createNewCategory,
   isUserAuthorized,
   isUserAdmin,

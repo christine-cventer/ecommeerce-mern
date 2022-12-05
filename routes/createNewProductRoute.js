@@ -21,7 +21,7 @@ const router = express.Router();
 // you need to start a new HTTP request in Postman and not use a version that was saved
 
 router.post(
-  "/new-product/create/:userId",
+  "/create-product/:userId",
   createNewProduct,
   upload.single("image"),
   isUserAuthorized,

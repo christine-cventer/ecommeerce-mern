@@ -8,10 +8,10 @@ import {
   getAllCategories,
 } from "../controllers/CategoryControllers.js";
 
-router.get("/get-category/:categoryId", getCategoryByProductId);
-router.get("/get-all-categories", getAllCategories);
-router.get("/get-distinct-categories/", getCategoryByProductId);
-router.put("/update-category/:categoryId", updateCategory);
-router.delete("/delete-category/:categoryId", deleteCategoryById);
+router.get("/category/:categoryId", getCategoryByProductId);
+router.get("/categories", getAllCategories);
+router.get("/categories-distinct/", getCategoryByProductId);
+router.put("/category-update/:categoryId", updateCategory);
+router.delete("/category-delete/:categoryId", deleteCategoryById);
 
 export default router;

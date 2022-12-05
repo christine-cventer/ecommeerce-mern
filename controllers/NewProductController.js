@@ -37,8 +37,8 @@ export default async function createNewProduct(req, res, next) {
       cloudinary_id: imgUpload.public_id,
     });
     await newProduct.save();
-    res.json({ msg: "Product creation success", newProduct });
+    res.send({ msg: "Product creation success", newProduct });
   } catch (error) {
-    console.log("Error uploading image: ", error);
+    next(error);
   }
 }

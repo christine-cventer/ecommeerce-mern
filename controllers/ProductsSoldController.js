@@ -18,12 +18,10 @@ export async function listProducts(req, res) {
       .limit(limit)
       .exec();
     !products
-      ? res.json("No products found")
-      : res.json({ msg: "Found products", products });
+      ? res.send("No products found")
+      : res.send({ msg: "Found products", products });
   } catch (err) {
-    return res.json({
-      msg: err.Message,
-    });
+    next(err);
   }
 }
 

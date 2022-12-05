@@ -6,34 +6,29 @@ export async function getCategoryById(req, res, next) {
   try {
     const category = await Category.findOne({ _id: req.params.categoryId });
     !category
-      ? res.json({ msg: "Category does not exist" })
-      : res.json({ msg: "Found category", category });
+      ? res.send({ msg: "Category does not exist" })
+      : res.status(200).send({ msg: "Found category", category });
   } catch (e) {
-    return res.json({
-      msg: e.Message,
-    });
+    next(e);
   }
   next();
 }
 
 //TODO - restrict to only allow admin to delete items
-export async function deleteCategoryById(req, res) {
+export async function deleteCategoryById(req, res, next) {
   try {
     const category = await Category.findByIdAndDelete({
       _id: req.params.categoryId,
     });
     !category
-      ? res.json({ msg: "Category not found by that id" })
-      : res.json({ msg: "Category deleted" });
+      ? res.send({ msg: "Category not found by that id" })
+      : res.status(200).send({ msg: "Category deleted" });
   } catch (error) {
-    return res.json({
-      msg: "Unable to delete",
-      error: error.toString(),
-    });
+    next(error);
   }
 }
 
-export async function updateCategory(req, res) {
+export async function updateCategory(req, res, next) {
   try {
     let product = await Product.findById({
       _id: req.params.productId,
@@ -44,39 +39,35 @@ export async function updateCategory(req, res) {
       msg: "Category updated, be sure to update products associated with this category",
     });
   } catch (error) {
-    return res.json({
-      msg: "Error updating category",
-      error: error.toString(),
-    });
+    next(error);
   }
 }
 
-export async function getCategoryByProductId(req, res) {
+export async function getCategoryByProductId(req, res, next) {
   try {
     let categories = await Product.distinct(
       "ProductCategory",
       {},
       (error, categories) => {
         if (error) {
-          res.json({ msg: "Error finding categories with that product id" });
+          res.send({ msg: "Error finding categories with that product id" });
         }
-        return res.json({ msg: "Found categories" }, { categories });
+        res.send({ msg: "Found categories" }, { categories });
       }
     );
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 }
 
 export async function getAllCategories(req, res) {
   try {
     const productCategories = await ProductCategory.find();
     !productCategories
-      ? res.json({ msg: "Categories not found" })
-      : res.status(200).json({ msg: "Categories", productCategories });
+      ? res.send({ msg: "Categories not found" })
+      : res.status(200).send({ msg: "Categories", productCategories });
   } catch (error) {
-    return res.json({
-      msg: "Unable to get categories",
-      error: error.toString(),
-    });
+    next(error);
   }
 }
 
