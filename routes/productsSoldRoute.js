@@ -1,12 +1,19 @@
 import express from "express";
 import {
-  ProductList,
-  ProductRelated,
-} from "../controllers/products/ProductsSoldController.js";
+  listProducts,
+  findRelatedProducts,
+} from "../controllers/ProductsSoldController.js";
 const router = express.Router();
 
-//sell/arrival
-router.get("/get-products-sold", ProductList);
-router.get("/get-products-related/:productCategoryId", ProductRelated);
+/*
+ * @method - GET
+ * @description - List all products by sell/arrival dates
+ */
+router.get("/get-products-sold", listProducts);
+/*
+ * @method - GET
+ * @description - find products related by category
+ */
+router.get("/get-products-related/:productCategoryId", findRelatedProducts);
 
 export default router;

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-const { ObjectId } = mongoose.Schema;
 
 // remove name length validation
 // if product is sold, total quantity decreases and productSold increases

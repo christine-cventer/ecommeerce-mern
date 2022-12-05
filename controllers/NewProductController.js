@@ -1,23 +1,18 @@
-import Product from "../../models/Product.js";
-import cloudinary from "../../middleware/config/cloudinaryConfig.js";
+import Product from "../models/Product.js";
+import cloudinary from "../middleware/config/cloudinaryConfig.js";
 
-// import upload from '../middleware/config/multerConfig.js';
-
-// console.log(upload);
 /**
- *  Upload image to cloudinary, store the cloudinary path to a variable.
- * Use cloudinary config file and multer config to support upload
+ *  To upload image to cloudinary:
+ *   -store the cloudinary path to a variable.
+ *   -use cloudinary config file and multer config to support upload
+ *   -create a new product with default properties
+ *   -save product to db
  *
- *  Create a new product with default properties
  *
- *  Save new product to db
  */
-//  Reads a file synchronously (node-snippets)
 
-export default async function CreateNewProduct(req, res, next) {
+export default async function createNewProduct(req, res, next) {
   try {
-    console.log("Request body files: ", req);
-    // console.log('see here :', req.method);
     const imgUpload = await cloudinary.uploader.upload(
       req.files.image.tempFilePath
     );
@@ -42,10 +37,8 @@ export default async function CreateNewProduct(req, res, next) {
       cloudinary_id: imgUpload.public_id,
     });
     await newProduct.save();
-    res.json({ msg: "Product creation success", newProduct });
+    res.send({ msg: "Product creation success", newProduct });
   } catch (error) {
-    console.log("Error uploading image: ", error);
-    res.send(error);
+    next(error);
   }
-  next();
 }

@@ -1,9 +1,7 @@
-import User from "../../models/User.js";
-
-//generates signed token
+import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
-export async function userSignUp(req, res) {
+export async function userSignUp(req, res, next) {
   try {
     const userEmail = await User.findOne({ email: req.body.email });
     if (userEmail) {
@@ -17,16 +15,13 @@ export async function userSignUp(req, res) {
         password: req.body.password,
       });
 
-      return res.json({
+      return res.status(200).send({
         msg: "Your account has been created",
         user: newUser,
       });
     }
   } catch (error) {
-    console.log("User signup error:", error);
-    return res.json({
-      msg: error.Message,
-    });
+    next(error);
   }
 }
 //TODO- convert function to use async/await
@@ -35,14 +30,14 @@ export function userSignIn(req, res) {
   const { email, password } = req.body;
   User.findOne({ email }, (error, user) => {
     if (error || !user) {
-      return res.status(400).json({
+      return res.status(400).send({
         errror: "Account does not exist",
       });
     }
     // 2 if user found, proceed to authenticate
     // TODO create authenticate method in User model
     if (!user.authenticate(password)) {
-      return res.status(401).json({
+      return res.status(401).send({
         error: "Email and password do not match",
       });
     }
@@ -52,14 +47,14 @@ export function userSignIn(req, res) {
     res.cookie("t", token, { expire: new Date() + 999 });
     //return response with user and token to front end client
     const { _id, email, name, role } = user;
-    return res.json({ token, user: { _id, email, name, role } });
+    return res.send({ token, user: { _id, email, name, role } });
   });
 }
 
 export function userSignOut(req, res) {
   //to sign out, simple clear the cookie (which stores user token) from response
   res.clearCookie("t");
-  res.json({ message: "Sign out" });
+  res.send({ message: "Sign out" });
 }
 
 export async function getUserById(req, res, next, id) {
@@ -82,13 +77,13 @@ export async function UpdateUserAccount(req, res, next) {
     // Ensure that updated email (if any), does not match an email address already stored in the db
     const userEmail = await User.findOne({ email: req.body.email });
     if (userEmail && user._id != req.params.userId) {
-      res.json("Other user exists with this updated email");
+      res.send("Other user exists with this updated email");
     }
 
     if (user._id == req.params.userId) {
       // form fields would have at least one character so I cannot check if the string length is 0 or empty
       if (req.body.email <= 1 && req.body.name <= 1) {
-        res.json("Form fields cannot be left empty");
+        res.send("Form fields cannot be left empty");
       } else {
         const { name, email, password } = req.body;
         const { id } = req.params.userId;
@@ -97,7 +92,7 @@ export async function UpdateUserAccount(req, res, next) {
         const updatedUser = await User.findOneAndUpdate(filter, req.body, {
           new: true,
         });
-        return res.status(200).json({
+        return res.status(200).send({
           message: "Update successful",
           data: updatedUser,
         });
@@ -105,25 +100,25 @@ export async function UpdateUserAccount(req, res, next) {
     }
   } catch (error) {
     console.log(error);
+    next(error);
   }
-  next();
 }
 
 // for users to delete their own accounts
-export async function UserAccountDelete(req, res) {
+export async function UserAccountDelete(req, res, next) {
   try {
     const user = await User.findByIdAndDelete({
       _id: req.params.userId,
     });
-    // users will be logged out after deleting their own accounts 
+    if (!user) {
+      throw Error("User not found");
+    }
+    // users will be logged out after deleting their own accounts
     // admin is role 0 and users are role 1
     req.profile.role === 1
       ? res.clearCookie("t")
       : res.json({ message: "Account deleted" });
   } catch (error) {
-    return res.json({
-      msg: "Unable to delete",
-      error: error.toString(),
-    });
+    next(error);
   }
 }

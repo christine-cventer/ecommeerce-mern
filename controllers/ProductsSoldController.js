@@ -1,5 +1,4 @@
-import Product from "../../models/Product.js";
-// return products to frontend client
+import Product from "../models/Product.js";
 
 /**
  * sell/arrival
@@ -8,7 +7,7 @@ import Product from "../../models/Product.js";
  * all products are returned if no params are sent
  */
 
-export async function ProductList(req, res) {
+export async function listProducts(req, res) {
   try {
     let order = req.query.order ? req.query.order : "asc";
     let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
@@ -19,12 +18,10 @@ export async function ProductList(req, res) {
       .limit(limit)
       .exec();
     !products
-      ? res.json("No products found")
-      : res.json({ msg: "Found products", products });
+      ? res.send("No products found")
+      : res.send({ msg: "Found products", products });
   } catch (err) {
-    return res.json({
-      msg: err.Message,
-    });
+    next(err);
   }
 }
 
@@ -35,7 +32,7 @@ export async function ProductList(req, res) {
  */
 
 //TODO - filter related product that is being returned in the product response
-export async function ProductRelated(req, res) {
+export async function findRelatedProducts(req, res) {
   try {
     let limit = req.query.limit ? parseInt(req.query.limit) : 2;
     // return all products except the one in the request

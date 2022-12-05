@@ -1,25 +1,20 @@
-import Product from "../../models/Product.js";
-import cloudinary from "../../middleware/config/cloudinaryConfig.js";
+import Product from "../models/Product.js";
+import cloudinary from "../middleware/config/cloudinaryConfig.js";
 
-export async function ProductById(req, res, next) {
+export async function getProductById(req, res, next) {
   try {
-    const product = await Product.findOne({ _id: req.params.productId });
-    !product
-      ? res.json({ msg: "Product does not exist" })
-      : res.json({ msg: "Found product", product });
+    const product = await Product.findById(req.params.productId);
+    !product ? res.send("no product found with this id") : res.send(product);
   } catch (e) {
-    return res.json({
-      msg: e.Message,
-    });
+    next(e);
   }
-  next();
 }
 
-export function ProductRead(req, res) {
+export function returnProduct(req, res) {
   return res.json(req.product);
 }
 
-export async function ProductDelete(req, res) {
+export async function deleteProductById(req, res, next) {
   try {
     const product = await Product.findByIdAndDelete({
       _id: req.params.productId,
@@ -32,18 +27,15 @@ export async function ProductDelete(req, res) {
       });
     });
     !product
-      ? res.json({ msg: "Product not found by that id" })
-      : res.json({ msg: "Product deleted" });
+      ? res.send({ msg: "Product not found by that id" })
+      : res.send({ msg: "Product deleted" });
   } catch (error) {
-    return res.json({
-      msg: "Unable to delete",
-      error: error.toString(),
-    });
+    return next(error);
   }
 }
 // for now, product update works by deleting original product by id and posting a new product to db
 //
-export async function ProductUpdate(req, res, next) {
+export async function updateProductById(req, res, next) {
   try {
     let product = await Product.findById({
       _id: req.params.productId,
@@ -69,13 +61,9 @@ export async function ProductUpdate(req, res, next) {
       //Delete old file in cloudinary
       //Create new product in db
       // Delete old product in db
-      console.log("product 4", product);
-      cloudinary.uploader.destroy(product.cloudinary_id, (e) => {
-        res.json({
-          msg: "Error",
-          error: e,
-        });
-      });
+      cloudinary.uploader
+        .destroy(product.cloudinary_id)
+        .then((result) => console.log(result));
       const imgUpload = await cloudinary.uploader.upload(
         req.files.image.tempFilePath
       );
@@ -90,18 +78,14 @@ export async function ProductUpdate(req, res, next) {
         cloudinary_id: imgUpload.public_id,
       });
       await newProduct.save();
-      res.json({
-        msg: "full product update successful",
+      res.status(200).send({
+        msg: "Full product update successful",
         product: newProduct,
       });
     }
   } catch (error) {
-    return res.json({
-      msg: "Error updating product",
-      error: error.toString(),
-    });
+    next(error);
   }
-  next();
 }
 
 export async function getProductsBySearch(req, res) {

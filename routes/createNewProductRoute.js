@@ -1,12 +1,12 @@
-import express from 'express';
+import express from "express";
 
 // middleware and controllers
-import restrictAuth from '../middleware/restrictUserAccess.js';
-import isUserAdmin from '../middleware/userAuthCheck.js';
-import isUserAuthorized from '../middleware/isUserAdminCheck.js';
-import getUserById from '../middleware/GetUserById.js';
-import upload from '../middleware/config/multerConfig.js';
-import CreateNewProduct from '../controllers/products/ProductImageController.js';
+import restrictAuth from "../middleware/restrictUserAccess.js";
+import isUserAdmin from "../middleware/userAuthCheck.js";
+import isUserAuthorized from "../middleware/isUserAdminCheck.js";
+import getUserById from "../middleware/GetUserById.js";
+import upload from "../middleware/config/multerConfig.js";
+import createNewProduct from "../controllers/NewProductController.js";
 
 const router = express.Router();
 
@@ -21,20 +21,20 @@ const router = express.Router();
 // you need to start a new HTTP request in Postman and not use a version that was saved
 
 router.post(
-    '/new-product/create/:userId',
-    CreateNewProduct,
-    upload.single('image'),
-    isUserAuthorized,
-    isUserAdmin,
-    restrictAuth,
-    (req, res) => {
-        if (!req.file) {
-            throw Error('File missing');
-        } else {
-            res.send('success');
-        }
+  "/create-product/:userId",
+  createNewProduct,
+  upload.single("image"),
+  isUserAuthorized,
+  isUserAdmin,
+  restrictAuth,
+  (req, res) => {
+    if (!req.file) {
+      throw Error("File missing");
+    } else {
+      res.send("success");
     }
+  }
 );
-router.param('userId', getUserById);
+router.param("userId", getUserById);
 
 export default router;

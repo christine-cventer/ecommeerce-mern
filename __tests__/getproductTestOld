@@ -1,0 +1,69 @@
+import { MongoMemoryServer } from "mongodb-memory-server";
+import supertest from "supertest";
+import createServer from "../server";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+let mongod = null;
+dotenv.config();
+// allows the test env to create its own server instead of affecting the real one
+// other set up may be to simply run the test while the REAL server isn't running
+const app = createServer();
+const request = supertest(app);
+
+// const productId = new mongoose.Types.ObjectId().toString();
+//TODO - generate mock user ids for admins
+const productId = "621aadf9eca4f731f4f69c96";
+const productPayload = {
+  productSold: 5,
+  _id: "621aadf9eca4f731f4f69c96",
+  file: "https://res.cloudinary.com/drwhbyjn9/image/upload/v1645915287/jmsja1g7kiosu77elxnm.jpg",
+  name: "new request",
+  description: "new test request",
+  price: 990,
+  category: "611c4b87d455c27134b21bc3",
+  quantity: 1,
+  cloudinary_id: "jmsja1g7kiosu77elxnm",
+  createdAt: "2022-02-26T22:47:21.191Z",
+  updatedAt: "2022-02-26T22:47:21.191Z",
+  __v: 0,
+};
+
+describe("GetProductById", () => {
+  beforeAll(async () => {
+    // const mongoServer = await MongoMemoryServer.create();
+    try {
+      let dbUrl = process.env.MONGO_URI;
+      if (dbUrl) {
+        mongod = await MongoMemoryServer.create();
+        dbUrl = mongod.getUri();
+        console.log("connected");
+      }
+    } catch (err) {
+      console.log(err);
+      process.exit(1);
+    }
+  });
+
+  afterAll(async () => {
+    try {
+      await mongoose.connection.close();
+      if (mongod) {
+        await mongod.stop();
+      }
+    } catch (err) {
+      console.log(err);
+      process.exit(1);
+    }
+  });
+  // it("should not get product given a product id", () => {
+  //   // const productId = Math.floor(Math.random() * 16);
+  //   return supertest(app).get(`/get-product/${productPayload._id}`).expect(404);
+  // });
+
+  it("should get product given a valid product id", async () => {
+    const res = await request.get(`/get-product/${productId}`);
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe(`${product.name}`);
+  });
+});
