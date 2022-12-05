@@ -2,7 +2,7 @@ import express from "express";
 import {
   listProducts,
   findRelatedProducts,
-} from "../controllers/products/ProductsSoldController.js";
+} from "../controllers/ProductsSoldController.js";
 const router = express.Router();
 
 //sell/arrival

@@ -5,9 +5,8 @@ import {
   getCategoryByProductId,
   deleteCategoryById,
   updateCategory,
-  getCategoryByProductId,
   getAllCategories,
-} from "../controllers/products/CategoryControllers.js";
+} from "../controllers/CategoryControllers.js";
 
 router.get("/get-category/:categoryId", getCategoryByProductId);
 router.get("/get-all-categories", getAllCategories);

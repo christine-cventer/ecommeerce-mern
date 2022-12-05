@@ -1,5 +1,5 @@
-import Product from "../../models/Product.js";
-import cloudinary from "../../middleware/config/cloudinaryConfig.js";
+import Product from "../models/Product.js";
+import cloudinary from "../middleware/config/cloudinaryConfig.js";
 
 export async function getProductById(req, res, next) {
   try {

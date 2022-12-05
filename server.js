@@ -11,31 +11,30 @@ import fileUpload from "express-fileupload";
 import cors from "cors";
 
 function createServer() {
-  const app = express();
-  //facilitates image uploads
-  app.use(
-    fileUpload({
-      useTempFiles: true,
-      tempFileDir: "/tmp/",
-    })
-  );
-  app.use(cors());
-  app.use(morgan("dev"));
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-  app.use(cookieParser());
-
-  app.get("/", (req, res) => {
-    res.status(200).send("Your app is running, go catch it!");
-  });
-
-  //routes middleware
-  app.use("/api/v1/user", userRoute);
-  app.use("/api/v1/category", productCategoryRoute);
-  app.use("/api/v1/product", productRoutes);
-  app.use("/api/v1/get-product-by-id/", productById);
-  app.use("/api/v1/get-category-by-id/", categoryById);
-  app.use("/api/v1/get-products-sold", productsSold);
+  const app = express()
+    .use(
+      fileUpload({
+        useTempFiles: true,
+        tempFileDir: "/tmp/",
+      })
+    )
+    .use(cors())
+    .use(morgan("dev"))
+    .use(express.json())
+    .use(express.urlencoded({ extended: true }))
+    .use(cookieParser())
+    .use(
+      "/",
+      new express.Router().get("/", (req, res) => {
+        res.status(200).send("Your app is running, go catch it!");
+      })
+    )
+    .use("/api/v1/user", userRoute)
+    .use("/api/v1/category", productCategoryRoute)
+    .use("/api/v1/product", productRoutes)
+    .use("/api/v1/get-product-by-id/", productById)
+    .use("/api/v1/get-category-by-id/", categoryById)
+    .use("/api/v1/get-products-sold", productsSold);
 
   return app;
 }
