@@ -5,7 +5,7 @@ import chaiAsPromised from "chai-as-promised";
 // const sinon = require("sinon");
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
-import { ProductById } from "../controllers/products/ProductsByIdControllers.js";
+import { getProductById } from "../controllers/productsByIdControllers.js";
 import Product from "../models/Product.js";
 import mongoose from "mongoose";
 import chaiHttp from "chai-http";

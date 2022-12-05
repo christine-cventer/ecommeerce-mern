@@ -6,7 +6,7 @@ import {
   deleteProductById,
   updateProductById,
   getProductsBySearch,
-} from "../controllers/ProductsByIdControllers.js";
+} from "../controllers/productsByIdControllers.js";
 import upload from "../middleware/config/multerConfig.js";
 
 // chain http requests to avoid having to use params in a separate line of code
