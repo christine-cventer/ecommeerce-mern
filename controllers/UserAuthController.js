@@ -1,4 +1,4 @@
-import User from "../../models/User.js";
+import User from "../models/User.js";
 
 //generates signed token
 import jwt from "jsonwebtoken";

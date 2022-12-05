@@ -1,13 +1,7 @@
 import Product from "../../models/Product.js";
 import cloudinary from "../../middleware/config/cloudinaryConfig.js";
 
-// export const productByIdTest = (_id) => {
-//   Product.findById({ _id }).then((doc) => {
-//     return JSON.parse(JSON.stringify(doc));
-//   });
-// };
-
-export async function ProductById(req, res, next) {
+export async function getProductById(req, res, next) {
   try {
     const product = await Product.findById(req.params.productId);
     !product ? res.send("no product found with this id") : res.send(product);
@@ -17,11 +11,11 @@ export async function ProductById(req, res, next) {
   }
 }
 
-export function ProductRead(req, res) {
+export function returnProduct(req, res) {
   return res.json(req.product);
 }
 
-export async function ProductDelete(req, res) {
+export async function deleteProductById(req, res) {
   try {
     const product = await Product.findByIdAndDelete({
       _id: req.params.productId,
@@ -45,7 +39,7 @@ export async function ProductDelete(req, res) {
 }
 // for now, product update works by deleting original product by id and posting a new product to db
 //
-export async function ProductUpdate(req, res, next) {
+export async function updateProductById(req, res, next) {
   try {
     let product = await Product.findById({
       _id: req.params.productId,

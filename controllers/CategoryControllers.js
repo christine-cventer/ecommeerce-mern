@@ -1,8 +1,8 @@
-import Product from "../../models/Product.js";
-import ProductCategory from "../../models/ProductCategory.js";
-import Category from "../../models/ProductCategory.js";
+import Product from "../models/Product.js";
+import ProductCategory from "../models/ProductCategory.js";
+import Category from "../models/ProductCategory.js";
 
-export async function CategoryById(req, res, next) {
+export async function getCategoryById(req, res, next) {
   try {
     const category = await Category.findOne({ _id: req.params.categoryId });
     !category
@@ -17,7 +17,7 @@ export async function CategoryById(req, res, next) {
 }
 
 //TODO - restrict to only allow admin to delete items
-export async function CategoryDelete(req, res) {
+export async function deleteCategoryById(req, res) {
   try {
     const category = await Category.findByIdAndDelete({
       _id: req.params.categoryId,
@@ -33,7 +33,7 @@ export async function CategoryDelete(req, res) {
   }
 }
 
-export async function CategoryUpdate(req, res) {
+export async function updateCategory(req, res) {
   try {
     let product = await Product.findById({
       _id: req.params.productId,
@@ -78,4 +78,14 @@ export async function getAllCategories(req, res) {
       error: error.toString(),
     });
   }
+}
+
+export default function createNewCategory(req, res, next) {
+  const newCategory = new ProductCategory(req.body);
+  newCategory
+    .save()
+    .then((category) => res.json({ msg: "New category created", category }))
+    .catch((error) => console.log(error));
+
+  next();
 }
